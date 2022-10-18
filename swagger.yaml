@@ -1,0 +1,1736 @@
+tags:
+- name: users
+  description: users API
+- name: restaurant
+  description: restaurant API
+- name: review
+  description: review API
+- name: community
+  description: community API
+- name: comment
+  description: comment API
+- name: reply
+  description: reply API
+- name: event
+  description: event API
+- name: notice
+  description: notice API
+- name: question
+  description: question API
+- name: mypage
+  description: mypage API
+
+
+paths:
+# [GET]
+  /users:
+    get:
+      tags:
+      - users
+      summary: users
+      parameters:
+      - name: token
+        in: header
+        description: token
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/users'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /restaurant:
+    get:
+      tags:
+      - restaurant
+      summary: restaurant
+      parameters:
+      - name: user_address
+        in: query
+        description: user address
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/restaurants'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /restaurant/detail/{id}:
+    get:
+      tags:
+      - restaurant
+      summary: restaurant
+      parameters:
+      - name: restrant_id
+        in: query
+        description: restrant id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/restaurants'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+
+# [POST]
+  /restaurant/like:
+    post:
+      tags:
+      - restaurant
+      summary: restaurant
+      parameters:
+      - name: user_id
+        in: body
+        description: user id
+      - name: restaurant_id
+        in: body
+        description: restaurant id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /restaurant/like/{id}:
+    get:
+      tags:
+      - restaurant
+      summary: Restaurant like
+      parameters:
+      - name: user_id
+        in: query
+        description: user id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/like_restaurants'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [POST]
+  /review:
+    post:
+      tags:
+        - review
+      summary: create a review 
+      parameters:
+        - name: user_id
+          in: body
+          description: user Schema _id
+          required: true
+        - name: body
+          in: body
+          description: User data object to update
+          required: true
+          schema:
+            $ref: '#/definitions/reviews'         
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [PUT] review/id
+    put:
+      tags:
+      - review
+      summary: Update review data
+      parameters:
+      - name: user_id
+        in: body
+        description: user id
+        required: true
+      - name: body
+        in: body
+        description: User data object to update
+        required: true
+        schema:
+          $ref: '#/definitions/reviews'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'      
+
+# [DELETE] review/id
+    delete:
+      tags:
+      - review
+      summary: review delete
+      parameters:
+      - name: review_id
+        in: body
+        description: review_id
+        required: true
+      - name: user_id
+        in: body
+        description: user id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /review/{id}:
+    get:
+      tags:
+      - review
+      summary: Restaurant Review
+      parameters:
+      - name: restrant_id
+        in: query
+        description: restrant id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/reviews'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [POST]
+  /community:
+    post:
+      tags:
+      - community
+      summary: create a community 
+      parameters:
+        - name: user_id
+          in: body
+          description: user Schema _id
+          required: true
+        - name: body
+          in: body
+          description: User data object to update
+          required: true
+          schema:
+            $ref: '#/definitions/post_community'         
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'    
+
+# [PUT] community/id
+    put:
+      tags:
+      - community
+      summary: Update community data
+      parameters:
+      - name: community_id
+        in: body
+        description: community id
+        required: true
+      - name: user_id
+        in: body
+        description: user id
+        required: true
+      - name: body
+        in: body
+        description: User data object to update
+        required: true
+        schema:
+          $ref: '#/definitions/post_community'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'      
+
+# [DELETE] review/id
+    delete:
+      tags:
+      - community
+      summary: community delete
+      parameters:
+      - name: community_id
+        in: body
+        description: community_id
+        required: true
+      - name: user_id
+        in: body
+        description: user id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+    get:
+      tags:
+      - community
+      summary: community
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/community'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /community/detail:
+    get:
+      tags:
+      - community
+      summary: community 
+      parameters:
+      - name: community_id
+        in: query
+        description: community id
+       
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/community'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'    
+
+# [GET]
+  /comment/like:
+    get:
+      tags:
+      - comment
+      summary: comment
+      parameters:
+      - name: user_id
+        in: query
+        description: user id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/like_comments'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /reply/like:
+    get:
+      tags:
+      - reply
+      summary: reply
+      parameters:
+      - name: user_id
+        in: query
+        description: user id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/like_replys'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [POST]
+  /event:
+    post:
+      tags:
+      - event
+      summary: create a event 
+      parameters:
+        - name: user_id
+          in: body
+          description: user Schema _id
+          required: true
+        - name: body
+          in: body
+          description: User data object to update
+          required: true
+          schema:
+            $ref: '#/definitions/post_events'         
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'    
+
+# [PUT] event/id
+    put:
+      tags:
+      - event
+      summary: Update event
+      parameters:
+      - name: user_id
+        in: body
+        description: user Schema _id
+        required: true      
+      - name: body
+        in: body
+        description: User data object to update
+        required: true
+        schema:
+          $ref: '#/definitions/events'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'      
+
+# [DELETE] event/id
+    delete:
+      tags:
+      - event
+      summary: event delete
+      parameters:
+      - name: event_id
+        in: body
+        description: event id
+        required: true
+      - name: user_id
+        in: body
+        description: user id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+    get:
+      tags:
+      - event
+      summary: event
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/events'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /event/detail:
+    get:
+      tags:
+      - event
+      summary: event
+      parameters:
+      - name: event_id
+        in: query
+        description: event id
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/events'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'   
+
+# [POST]
+  /notice:
+    post:
+      tags:
+      - notice
+      summary: create a notice 
+      parameters:
+        - name: user_id
+          in: body
+          description: user Schema _id
+          required: true
+        - name: body
+          in: body
+          description: User data object to update
+          required: true
+          schema:
+            $ref: '#/definitions/post_notices'         
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'    
+
+# [PUT] notice/id
+    put:
+      tags:
+      - notice
+      summary: Update notice
+      parameters:
+      - name: user_id
+        in: body
+        description: user Schema _id
+        required: true      
+      - name: body
+        in: body
+        description: User data object to update
+        required: true
+        schema:
+          $ref: '#/definitions/notices'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'      
+
+# [DELETE] notice/id
+    delete:
+      tags:
+      - notice
+      summary: event delete
+      parameters:
+      - name: notice_id
+        in: body
+        description: notice id
+        required: true
+      - name: user_id
+        in: body
+        description: user id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+    get:
+      tags:
+      - notice
+      summary: notice
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/notices'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /notice/detail:
+    get:
+      tags:
+      - notice
+      summary: notice
+      parameters:
+      - name: notice_id
+        in: query
+        description: notice id
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/notices'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'   
+
+
+
+# [POST]
+  /question:
+    post:
+      tags:
+      - question
+      summary: create a question 
+      parameters:
+        - name: user_id
+          in: body
+          description: user Schema _id
+          required: true
+        - name: body
+          in: body
+          description: User data object to update
+          required: true
+          schema:
+            $ref: '#/definitions/post_questions'         
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'    
+
+# [PUT] question/id
+    put:
+      tags:
+      - question
+      summary: Update question
+      parameters:
+      - name: user_id
+        in: body
+        description: user Schema _id
+        required: true      
+      - name: body
+        in: body
+        description: User data object to update
+        required: true
+        schema:
+          $ref: '#/definitions/questions'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'      
+
+# [DELETE] question/id
+    delete:
+      tags:
+      - question
+      summary: question delete
+      parameters:
+      - name: question_id
+        in: body
+        description: notice id
+        required: true
+      - name: user_id
+        in: body
+        description: user id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+    get:
+      tags:
+      - question
+      summary: question
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/questions'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /question/detail:
+    get:
+      tags:
+      - question
+      summary: question
+      parameters:
+      - name: question_id
+        in: query
+        description: question id
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/questions'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'   
+
+# [GET]
+  /mypage/{id}:
+    get:
+      tags:
+      - mypage
+      summary: mypage
+      parameters:
+      - name: user_id
+        in: query
+        description: user id
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/users'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'   
+
+
+# [GET]
+  /mypage/like/{id}:
+    get:
+      tags:
+      - mypage
+      summary: Restaurant like
+      parameters:
+      - name: user_id
+        in: query
+        description: user id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/restaurants'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [GET]
+  /mypage/community/{id}:
+    get:
+      tags:
+      - mypage
+      summary: mypage community
+      parameters:
+      - name: user_id
+        in: query
+        description: user id
+       
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/community'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'    
+
+# [GET]
+  /mypage/review/{id}:
+    get:
+      tags:
+      - mypage
+      summary: mypage Restaurant Review
+      parameters:
+      - name: user_id
+        in: query
+        description: user id
+
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/reviews'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'
+
+# [PATCH] mypage/id
+    patch:
+      tags:
+      - mypage
+      summary: Update mypage
+      parameters:
+      - name: user_id
+        in: body
+        description: user Schema _id
+        required: true      
+      - name: body
+        in: body
+        description: User data object to update
+        required: true
+        schema:
+          $ref: '#/definitions/patch_users'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            $ref: '#/definitions/success_message'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+          schema:
+            type: object
+            $ref: '#/definitions/conflict_message'
+        500:
+          description: 'Server Error'
+          schema:
+            type: object
+            $ref: '#/definitions/server_error_message'   
+
+
+# definitions
+definitions:
+  users:
+    type: object
+    required:
+        - user_id
+        - user_nickname
+        - user_gender
+        - user_address
+        - user_img
+        - user_email
+        - user_password
+        - user_phone
+    properties:
+      user_id:
+        type: string
+        description: 유저 아이디
+      user_nickname:
+        type: string
+        description: 유저 닉네임
+      user_gender:
+        type: string
+        description: 유저 성별
+      user_img:
+        type: string
+        description: 유저 사진
+      user_email:
+        type: string
+        description: 유저 이메일
+      user_password:
+        type: string
+        description: 유저 비밀번호
+      user_address:
+        type: string
+        description: 유저 주소
+      user_phone:
+        type: string
+        description: 유저 전화번호
+
+  like_restaurants:
+    type: object
+    required: 
+        - user_id
+        - resaurant_id
+    properties:
+      user_id:
+        type: string
+        description: 찜한 유저 아이디
+      resaurant_id: 
+        type: string
+        description: 찜한 음식점 아이디
+
+  community:
+    type: object
+    required:
+        - community_id
+        - user_id
+        - community_title
+        - community_description
+        - view
+        - create_at
+        - community_img
+        - community_like
+        - community_categroy
+    properties:
+      community_id:
+        type: string
+        description: 게시글 아이디
+      user_id:
+        type: string
+        description: 게시글 작성자 유저 아이디
+      community_title:
+        type: string
+        description: 게시글 제목
+      community_description: 
+        type: string
+        description: 게시글 내용
+      postView: 
+        type: number
+        description: 게시글 조회 수
+      create_at:
+        type: string
+        description: 게시글 작성 시간
+      community_img_list:
+        type: array
+        items:  
+          properties:
+            community_img:
+              type: string
+              description: 게시글 이미지
+      community_like:
+        type: number
+        description: 게시글 좋아요
+      community_categroy:
+        type: array
+        description: 게시글 해시태그
+      
+  comments:
+    type: object
+    required:
+        - comment_id
+        - community_id
+        - user_id
+        - comment
+        - comment_like
+        - create_at
+    properties: 
+      comment_id:
+        type: string
+        description: 댓글 아이디
+      community_id:
+        type: string
+        description: 게시글 아이디
+      user_id:  
+        type: string
+        description: 댓글 작성한 유저의 아이디
+      comment:
+        type: string
+        description: 댓글 내용
+      comment_like:  
+        type: number
+        description: 댓글의 좋아요 수량
+      create_at:
+        type: string
+        description: 댓글 작성 시간
+    
+  like_comments:
+    type: object
+    required:
+        - user_id
+        - comment_id
+    properties:
+      user_id:
+        type: string
+        description: 유저 아이디
+      comment_id: 
+        type: string
+        description: 댓글 아이디(어떤 댓글인지)
+
+  replys:
+    type: object
+    required:
+        - comment_id
+        - user_id
+        - reply
+        - create_at
+    properties:
+      comment_id: 
+        type: string
+        description: 댓글 아이디 (commentId 조회 후 어떤 글에 대한 댓글인지 확인)
+      user_id:   
+        type: string
+        description: 답글 작성한 유저 아이디
+      reply: 
+        type: string
+        description: 답글 내용
+      create_at: 
+        type: string
+        description: 댓글 작성 시간
+
+  like_replys:
+    type: object
+    required:
+        - user_id
+        - reply_id
+    properties:
+      user_id:
+        type: string
+        description: 유저 아이디
+      reply_id: 
+        type: string
+        description: 댓글 아이디(어떤 댓글인지)
+
+  restaurants:
+    type: object
+    required:
+        - restaurant_id
+        - restaurant_name
+        - restaurant_phone
+        - restaurant_img
+        - restaurant_like
+    properties:
+      restaurant_id:
+        type: string
+        description: 음식점 아이디 ( 크롤링 )
+      restaurant_name: 
+        type: string
+        description: 음식점 이름
+      restaurant_phone: 
+        type: number
+        description: 음식점 번호
+      restaurant_img_list:
+        type: array
+        items:  
+          properties:
+            restaurant_img:
+              type: string
+              description: 음식점 게시글 이미지
+      restaurant_like:
+        type: number
+        description: 음식점 찜 수량
+
+  reviews:
+    type: object
+    required: 
+        - review_id
+        - restaurant_id
+        - review_mood_tag
+        - review_season_tag
+        - review_weather_tag
+        - review_score
+        - review_title
+        - review_desc
+        - review_at
+        - review_img
+    properties:
+      review_id:
+        type: string
+        description: 리뷰 아이디
+      restaurant_id:
+        type: string
+        description: 음식점 아이디
+      review_mood_tag:
+        type: string
+        description: 리뷰 분위기 해시태그
+      review_season_tag: 
+        type: string
+        description: 리뷰 계절 해시태그
+      review_weather_tag: 
+        type: string
+        description: 리뷰 날씨 해시태그
+      review_score:
+        type: number
+        description: 리뷰 평점
+      review_title:
+        type: string
+        description: 리뷰 제목
+      review_desc: 
+        type: string
+        description: 리뷰 내용
+      review_at: 
+        type: string
+        description: 리뷰 작성 시간
+      review_img: 
+        type: array
+        description: 리뷰 이미지
+
+  recent_searchs:
+    type: object
+    requried: 
+        - recent_search_id
+        - user_id
+        - search_desc
+        - create_at
+    properties:
+      recent_search_id:
+        type: string
+        description: 최근 검색어 아이디
+      user_id:
+        type: string
+        description: 검색한 유저 아이디
+      search_desc:
+        type: string
+        description: 최근 검색 내용
+      create_at:
+        type: string
+        description: 레코드 생성 시간
+
+  best_searchs:
+    type: object
+    requried:
+         - best_searchs
+
+  events:
+    type: object
+    required: 
+        - event_id
+        - event_category
+        - event_title
+        - event_desc
+        - event_detail_desc
+        - event_img
+        - event_at
+        - event_tip
+        - event_person
+        - event_expire_date
+        - event_announce_date
+    properties:
+      event_id:
+        type: string
+        description: 이벤트 게시글 아이디
+      event_category: 
+        type: string
+        description: 이벤트 카테고리
+      event_title: 
+        type: string
+        description: 이벤트 제목
+      event_desc: 
+        type: string
+        description: 이벤트 내용
+      event_detail_desc: 
+        type: string
+        description: 이벤트 상세 내용
+      event_img_list:
+        type: array
+        items:  
+          properties:
+            event_img:
+              type: string
+              description: 이벤트 게시글 이미지
+      event_at:
+        type: string
+        description: 이벤트 작성 시간
+      event_tip:
+        type: string
+        description: 이벤트 팁
+      event_person:
+        type: string
+        description: 이벤트 참여인원
+      event_expire_date:
+        type: string
+        description: 이벤트 모집기간
+      event_announce_date:
+        type: string
+        description: 이벤트 당첨 발표일
+      
+  event_comments:
+    type: object
+    required: 
+        - user_id
+        - event_comment_id
+        - event_comment_img
+        - event_comment_at
+        - event_comment_desc
+    properties:
+      user_id:
+        type: string
+        description: 댓글 작성자 유저 아이디
+      event_comment_id:
+        type: stirng
+        description:  이벤트 댓글 아이디
+      event_comment_img:
+        type: string
+        description: 이벤트 댓글 이미지
+      event_comment_at:
+        type: string
+        description: 이벤트 댓글 작성 시간
+      event_comment_desc: 
+        type: string
+        description: 이벤트 댓글 내용
+
+  event_comment_likes:
+    type: object
+    requried: 
+        - user_id
+        - event_comment_id
+    properties:
+      user_id: 
+        type: string
+        description: 댓글 좋아요 누른 유저 아이디
+      event_comment_id: 
+        type: string
+        description: 이벤트 댓글 아이디
+
+  notices:
+    type: object
+    requried:
+        - notice_title
+        - notice_id
+        - notice_img
+        - create_at
+        - notice_desc
+        - notice_category
+    properties:
+      notice_title:
+        type: string
+        description: 공지 제목
+      notice_id:
+        type: string
+        description: 공지 아이디
+      notice_img_list:
+        type: array
+        items:  
+          properties:
+            notice_img:
+              type: string
+              description: 공지 게시글 이미지
+      create_at: 
+        type: string
+        description: 공지 작성 시간
+      notice_desc:
+        type: string
+        description: 공지 내용
+      notice_category:
+        type: string
+        description: 공지 카테고리
+
+  questions:
+    type: object
+    requried:
+        - question_id
+        - question_category
+        - question_title
+        - question_desc
+        - question_img
+        - question_private
+    properties:
+      question_id:
+        type: string
+        description: 질문 아이디
+      question_category:
+        type: string
+        description: 질문 카테고리
+      question_title: 
+        type: string
+        description: 질문 제목
+      question_desc:
+        type: string
+        description: 질문 내용
+      question_img_list:
+        type: array
+        items:  
+          properties:
+            question_img:
+              type: string
+              description: 문의 게시글 이미지
+      question_private: 
+        type: string
+        description: 질문 공개 여부
+
+  question_comments:
+    type: object
+    requried:
+        - question_id
+        - question_comment
+    properties:
+      question_id:
+        type: string
+        description: 질문 아이디
+      question_comment:
+        type: string
+        description: 질문에 대한 답글
+
+  success_message:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "OK"
+
+  conflict_message:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "Conflict"
+
+  server_error_message:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "Server Error"
+
+  post_community:
+    type: object
+    required:
+        - community_title
+        - community_description
+        - create_at
+        - community_img
+        - community_like
+    properties:
+      community_title:
+        type: string
+        description: 게시글 제목
+      community_description: 
+        type: string
+        description: 게시글 내용
+      create_at:
+        type: string
+        description: 게시글 작성 시간
+      community_img_list:
+        type: array
+        items:  
+          properties:
+            community_img:
+              type: string
+              description: 게시글 이미지
+      community_like:
+        type: number
+        description: 게시글 좋아요 수
+
+  post_events:
+    type: object
+    required: 
+        - event_category
+        - event_title
+        - event_desc
+        - event_detail_desc
+        - event_img
+        - event_at
+        - event_tip
+        - event_person
+        - event_expire_date
+        - event_announce_date
+    properties:
+      event_category: 
+        type: string
+        description: 이벤트 카테고리
+      event_title: 
+        type: string
+        description: 이벤트 제목
+      event_desc: 
+        type: string
+        description: 이벤트 내용
+      event_detail_desc: 
+        type: string
+        description: 이벤트 상세 내용
+      event_img_list:
+        type: array
+        items:  
+          properties:
+            event_img:
+              type: string
+              description: 이벤트 게시글 이미지
+      event_at:
+        type: string
+        description: 이벤트 작성 시간
+      event_tip:
+        type: string
+        description: 이벤트 팁
+      event_person:
+        type: string
+        description: 이벤트 참여인원
+      event_expire_date:
+        type: string
+        description: 이벤트 모집기간
+      event_announce_date:
+        type: string
+        description: 이벤트 당첨 발표일
+
+  post_notices:
+    type: object
+    requried:
+        - notice_title
+        - notice_img
+        - create_at
+        - notice_desc
+        - notice_category
+    properties:
+      notice_title:
+        type: string
+        description: 공지 제목
+      notice_img_list:
+        type: array
+        items:  
+          properties:
+            notice_img:
+              type: string
+              description: 공지 게시글 이미지
+      create_at: 
+        type: string
+        description: 공지 작성 시간
+      notice_desc:
+        type: string
+        description: 공지 내용
+      notice_category:
+        type: string
+        description: 공지 카테고리
+
+  post_questions:
+    type: object
+    requried:
+        - question_category
+        - question_title
+        - question_desc
+        - question_img
+        - question_private
+    properties:
+      question_category:
+        type: string
+        description: 질문 카테고리
+      question_title: 
+        type: string
+        description: 질문 제목
+      question_desc:
+        type: string
+        description: 질문 내용
+      question_img_list:
+        type: array
+        items:  
+          properties:
+            question_img:
+              type: string
+              description: 문의 게시글 이미지
+      question_private: 
+        type: string
+        description: 질문 공개 여부
+
+  patch_users:
+    type: object
+    required: 
+        - user_nickname
+        - user_gender
+        - user_img
+        - user_email
+        - user_address
+        - user_phone
+    properties:
+      user_nickname:
+        type: string
+        description: 유저 닉네임
+      user_gender:
+        type: string
+        description: 유저 성별
+      user_img:
+        type: string
+        description: 유저 사진
+      user_email:
+        type: string
+        description: 유저 이메일
+      user_phone:
+        type: string
+        description: 유저 전화번호
+      
+schemes:
+ - https
+ - http
