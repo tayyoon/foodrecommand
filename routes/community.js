@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/user');
 const Community = require('../models/community');
 const Comment = require('../models/comment');
+
 const router = express.Router();
 const moment = require('moment');
 // const authMiddleware = require('../middlewares/auth-middleware')
