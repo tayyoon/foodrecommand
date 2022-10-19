@@ -62,4 +62,43 @@ router.post('/review/:restaurnatId', authMiddleware, async (req, res) => {
     }
 });
 
+// 리뷰 조회
+router.get('/review/:restaurantId', authMiddleware, async (req, res) => {
+    const { restaurantId } = req.params;
+    try {
+        var reviews = await Review.find({ restaurantId });
+        res.status(200).json({ msg: '리뷰 조회 success', reviews });
+    } catch (error) {
+        console.log(error);
+        res.status(400).josn({ msg: '리뷰 조회 fail' });
+    }
+});
+
+// 리뷰 삭제
+router.delete('/review/:reviewId', authMiddleware, async (req, res) => {
+    const { reviewId } = req.params;
+    const review = await Review.find({ _id: reviewId });
+
+    // const url = review[0].reviewImg.split('/');
+    // const delFileName = url[url.length - 1];
+    try {
+        await Review.deleteOne({ _id: reviewId });
+
+        s3.deleteObject(
+            {
+                Bucket: 'practice2082',
+                Key: delFileName,
+            },
+            (err, data) => {
+                if (err) {
+                    throw err;
+                }
+            }
+        );
+        res.send({ result: '리뷰 삭제 success' });
+    } catch {
+        res.status(400).send({ msg: '리뷰 삭제 fail' });
+    }
+});
+
 module.exports = router;
