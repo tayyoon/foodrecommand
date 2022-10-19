@@ -1,6 +1,8 @@
 const express = require('express');
 const connect = require('./models');
 const cors = require('cors');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 const port = 3000;
 
 const app = express();
@@ -19,6 +21,20 @@ app.use(requestMiddleware);
 app.get('/', (req, res) => {
     res.send('hello');
 });
+
+const options = {
+    swaggerDefinition: {
+        info: {
+            title: 'REST API',
+            version: '1.0.0',
+            description: 'Example docs',
+        },
+    },
+    apis: ['swagger.yaml'],
+};
+
+const specs = swaggerJSDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.listen(port, () => {
     console.log(port, '포트로 서버가 켜졌어요');
