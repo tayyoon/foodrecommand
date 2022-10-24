@@ -1,11 +1,10 @@
 const express = require('express');
 const Community = require('../models/community');
-const Review = require('../models/review');
+const Comment = require('../models/comment');
 const User = require('../models/user');
 const Restaurant = require('../models/restaurant');
 const router = express.Router();
 const moment = require('moment');
-const upload = require('../S3/s3');
 // const authMiddleware = require('../middlewares/auth-middleware');
 
 // 리뷰 등록 (커뮤니티 코멘트)
@@ -82,6 +81,22 @@ router.post('/restaurant/comment/:postId', authMiddleware, async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(400).send({ msg: '레스토랑 코멘트 등록 fail' });
+    }
+});
+
+// 코멘트 조회 -> 필요한가? 상세 페이지 조회에서 레스토랑, 커뮤니티 별 같이 코멘트도 각ID로 찾아서 보내주면 되겠지?
+
+// 코멘트 삭제
+router.delete('/comment/:commentId', authMiddleware, async (req, res) => {
+    const { commentId } = req.params;
+    const comment = await Comment.find({ _id: commentId });
+
+    try {
+        await Comment.deleteOne({ _id: commentId });
+
+        res.send({ msg: '코멘트 삭제 success' });
+    } catch {
+        res.status(400).send({ msg: '코멘트 삭제 fail' });
     }
 });
 
