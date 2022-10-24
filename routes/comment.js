@@ -7,7 +7,7 @@ const router = express.Router();
 const moment = require('moment');
 // const authMiddleware = require('../middlewares/auth-middleware');
 
-// 리뷰 등록 (커뮤니티 코멘트)
+// 코멘트 등록 (커뮤니티 코멘트)
 router.post('/community/comment/:postId', authMiddleware, async (req, res) => {
     try {
         const { postId } = req.params;
@@ -44,7 +44,7 @@ router.post('/community/comment/:postId', authMiddleware, async (req, res) => {
     }
 });
 
-// 리뷰 등록 (레스토랑 코멘트)
+// 코멘트 등록 (레스토랑 코멘트)
 router.post('/restaurant/comment/:postId', authMiddleware, async (req, res) => {
     try {
         const { postId } = req.params;

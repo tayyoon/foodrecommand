@@ -35,6 +35,7 @@ const CommunitySchema = new mongoose.Schema({
     },
     communityLike: {
         type: Number,
+        default: 0,
     },
 });
 

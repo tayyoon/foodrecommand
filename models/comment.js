@@ -22,6 +22,7 @@ const CommentSchema = new mongoose.Schema({
     },
     commentLike: {
         type: Number,
+        default: 0,
     },
     createAt: {
         type: String,

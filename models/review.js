@@ -42,6 +42,10 @@ const ReviewSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    revidwLike: {
+        type: Number,
+        default: 0,
+    },
 });
 
 ReviewSchema.virtual('reviewId').get(function () {
