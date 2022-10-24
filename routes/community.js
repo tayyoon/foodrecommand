@@ -10,7 +10,7 @@ const moment = require('moment');
 // const Joi = require('joi');
 // const post_validation = require('../vaildation/post.val')
 
-// 전체 포스트 리스트
+// 전체 포스트 리스트 : 커뮤니티 전체 기준? 프론트랑 정하기
 router.get('/communityList', authMiddleware, async (req, res) => {
     try {
         let wholeCommunity = await Community.find({}).sort({ $natural: -1 });
