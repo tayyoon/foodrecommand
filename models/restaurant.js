@@ -24,6 +24,10 @@ const RestaurantSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    restaurantLike: {
+        type: Number,
+        default: 0,
+    },
 });
 
 RestaurantSchema.virtual('restaurantId').get(function () {
