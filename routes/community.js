@@ -10,11 +10,24 @@ const moment = require('moment');
 // const Joi = require('joi');
 // const post_validation = require('../vaildation/post.val')
 
-// 전체 커뮤니티 리스트
-router.get('/communityList', async (req, res) => {
+// 전체 커뮤니티 리스트: 무한스크롤 적용, 페이지네이션,
+router.get('/communityList/:pageNumber', async (req, res) => {
+    const { pageNumber } = req.params;
+    const { user } = res.locals;
+    const userId = user;
     try {
-        let wholeCommunity = await Community.find({}).sort({ $natural: -1 });
-
+        let wholeCommunity = await Community.find({})
+            .sort({ $natural: -1 })
+            .skip((pageNumber - 1) * 6)
+            .limit(5);
+        let userInfo = '';
+        for (let i = 0; i < wholeCommunity.length; i++) {
+            userInfo = await User.findOne({
+                userId: wholeCommunity[i].userId,
+            });
+            wholeCommunity[i]['nickName'] = `${userInfo.nickName}`;
+            wholeCommunity[i]['userImg'] = `${userInfo.userImg}`;
+        }
         res.status(200).json({
             wholeCommunity,
             msg: '전체 커뮤니티 리스트 success',
