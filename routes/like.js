@@ -14,7 +14,7 @@ const moment = require('moment');
 const authMiddleware = require('../middlewares/auth-middleware');
 
 // 좋아요
-router.put('/like', authMiddleware, async (req, res) => {
+router.put('/like', async (req, res) => {
     const { commentId, communityId, reviewId, restaurantId } = req.body;
     const { user } = res.locals;
     const { userId } = user;
@@ -73,7 +73,7 @@ router.put('/like', authMiddleware, async (req, res) => {
 });
 
 // 아니좋아요~
-router.delete('/unlike', authMiddleware, async (req, res) => {
+router.delete('/unlike', async (req, res) => {
     const { user } = res.locals;
     const { userId } = user;
     const { commentId, communityId, reviewId, restaurantId } = req.body;

@@ -10,8 +10,8 @@ const moment = require('moment');
 // const Joi = require('joi');
 // const post_validation = require('../vaildation/post.val')
 
-// 전체 포스트 리스트 : 커뮤니티 전체 기준? 프론트랑 정하기
-router.get('/communityList', authMiddleware, async (req, res) => {
+// 전체 커뮤니티 리스트
+router.get('/communityList', async (req, res) => {
     try {
         let wholeCommunity = await Community.find({}).sort({ $natural: -1 });
 
@@ -28,7 +28,7 @@ router.get('/communityList', authMiddleware, async (req, res) => {
 // 상세페이지 조회
 router.get(
     '/communityDetail/:communityId',
-    authMiddleware,
+
     async (req, res) => {
         const { communityId } = req.params;
 
@@ -53,7 +53,6 @@ router.get(
 //게시글 작성
 router.post(
     '/communityWrite',
-    authMiddleware,
     // post_validation.post_wirte, (vaildation 예외처리시 활성화)
     async (req, res) => {
         //작성한 정보 가져옴
@@ -97,7 +96,7 @@ router.post(
 // 게시글 삭제
 router.delete(
     '/communityDelete/:communityId',
-    authMiddleware,
+
     async (req, res) => {
         const { communityId } = req.params;
 

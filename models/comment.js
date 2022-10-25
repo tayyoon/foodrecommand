@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({
-    commentId: {
-        type: String,
-        required: true,
-        unique: true,
-    },
+    // commentId: {
+    //     type: String,
+    //     required: true,
+    //     unique: true,
+    // },
     // (postId를 조회해서 어떤 글에 대한 댓글인지 확인)
     postId: {
         type: String,

@@ -8,9 +8,9 @@ const moment = require('moment');
 // const authMiddleware = require('../middlewares/auth-middleware');
 
 // 코멘트 등록 (커뮤니티 코멘트)
-router.post('/community/comment/:postId', authMiddleware, async (req, res) => {
+router.post('/community/comment/:communityId', async (req, res) => {
     try {
-        const { postId } = req.params;
+        const postId = req.params.communityId;
         const community = await Community.findOne({ _id: postId });
         const { user } = res.locals;
         const { userId } = user;
@@ -45,9 +45,9 @@ router.post('/community/comment/:postId', authMiddleware, async (req, res) => {
 });
 
 // 코멘트 등록 (레스토랑 코멘트)
-router.post('/restaurant/comment/:postId', authMiddleware, async (req, res) => {
+router.post('/restaurant/comment/:restaurantId', async (req, res) => {
     try {
-        const { postId } = req.params;
+        const postId = req.params.restaurantId;
         const restaurant = await Restaurant.findOne({ _id: postId });
         const { user } = res.locals;
         const { userId } = user;
@@ -87,7 +87,7 @@ router.post('/restaurant/comment/:postId', authMiddleware, async (req, res) => {
 // 코멘트 조회 -> 필요한가? 상세 페이지 조회에서 레스토랑, 커뮤니티 별 같이 코멘트도 각ID로 찾아서 보내주면 되겠지?
 
 // 코멘트 삭제
-router.delete('/comment/:commentId', authMiddleware, async (req, res) => {
+router.delete('/comment/:commentId', async (req, res) => {
     const { commentId } = req.params;
     const comment = await Comment.find({ _id: commentId });
 

@@ -10,7 +10,7 @@ const router = express.Router();
 // const authMiddleware = require('../middlewares/auth-middleware');
 
 // 리뷰 등록
-router.post('/review/:restaurnatId', authMiddleware, async (req, res) => {
+router.post('/review/:restaurnatId', async (req, res) => {
     try {
         const { restaurnatId } = req.params;
         const restaurant = await Restaurant.findOne({ _id: restaurnatId });
@@ -18,8 +18,15 @@ router.post('/review/:restaurnatId', authMiddleware, async (req, res) => {
         const { userId, userNickname } = user;
         const { restaurantName, restaurantPhone, restaurantAdress } =
             restaurant;
-        const { reviewTitle, reviewDesc, reviewScore, reviewImg, reviewTag } =
-            req.body;
+        const {
+            reviewTitle,
+            reviewDesc,
+            reviewScore,
+            reviewImg,
+            reviewTagFood,
+            reviewTagWeather,
+            reviewTagMood,
+        } = req.body;
 
         require('moment-timezone');
         moment.tz.setDefault('Asia/Seoul');
@@ -41,7 +48,9 @@ router.post('/review/:restaurnatId', authMiddleware, async (req, res) => {
             reviewDesc,
             reviewScore,
             reviewImg,
-            reviewTag,
+            reviewTagFood,
+            reviewTagWeather,
+            reviewTagMood,
             userId,
             nickName: 'a',
             userImg: 'a',
@@ -52,7 +61,6 @@ router.post('/review/:restaurnatId', authMiddleware, async (req, res) => {
         });
 
         reviewList['nickName'] = `${userInfo.nickName}`;
-        reviewList['userAge'] = `${userInfo.userAge}`;
         reviewList['userImg'] = `${userInfo.userImg}`;
 
         res.status(200).json({ msg: '리뷰 등록 success', reviewList });
@@ -63,7 +71,7 @@ router.post('/review/:restaurnatId', authMiddleware, async (req, res) => {
 });
 
 // 리뷰 조회
-router.get('/review/:restaurantId', authMiddleware, async (req, res) => {
+router.get('/review/:restaurantId', async (req, res) => {
     const { restaurantId } = req.params;
     try {
         var reviews = await Review.find({ restaurantId });
@@ -75,7 +83,7 @@ router.get('/review/:restaurantId', authMiddleware, async (req, res) => {
 });
 
 // 리뷰 삭제
-router.delete('/review/:reviewId', authMiddleware, async (req, res) => {
+router.delete('/review/:reviewId', async (req, res) => {
     const { reviewId } = req.params;
     const review = await Review.find({ _id: reviewId });
 

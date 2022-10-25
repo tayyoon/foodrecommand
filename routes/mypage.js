@@ -6,29 +6,28 @@ const Comment = require('../models/comment');
 const Restaurant = require('../models/restaurant');
 
 const router = express.Router();
-const upload = require('../S3/s3');
-const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
+// const upload = require('../S3/s3');
+// const AWS = require('aws-sdk');
+// const s3 = new AWS.S3();
 //multer-s3 미들웨어 연결
 require('dotenv').config();
-const authMiddleware = require('../middlewares/auth-middleware');
+// const authMiddleware = require('../middlewares/auth-middleware');
 
 // 마이페이지
-router.get('/myPage', authMiddleware, async (req, res) => {
+router.get('/myPage', async (req, res) => {
     const { user } = res.locals;
     const { userId } = user;
 
     try {
         const myPage = await User.find({ userId });
-        res.status(200).json({ myPage });
+        res.status(200).json({ msg: '마이페이지 메인 success', myPage });
     } catch (err) {
-        console.log('마이페이지 에이피아이', err);
-        res.status(400).json({ msg: 'mypage error' });
+        res.status(400).json({ msg: '마이페이지 메인 fail' });
     }
 });
 
 // 내가 찜한 식당
-router.get('/myPage/myRestaurant', authMiddleware, async (req, res, next) => {
+router.get('/myPage/myRestaurant', async (req, res, next) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -45,25 +44,7 @@ router.get('/myPage/myRestaurant', authMiddleware, async (req, res, next) => {
 });
 
 // 내가작성한 리뷰
-router.get('/myPage/myReview', authMiddleware, async (req, res, next) => {
-    const { user } = res.locals;
-    const { userId } = user;
-
-    try {
-        //후기 작성이 안된 게시글만 불러오기
-        const myReview = await Myex.find({ userId });
-        for (let i = 0; i < myReview.length; i++) {
-            // 마이 리뷰에 맞는 코멘트 같이 넘길 수 있도록 찾아야함
-        }
-        res.status(200).json({ myEx });
-    } catch (err) {
-        console.log('마이페이지 에이피아이2', err);
-        res.status(400).json({ msg: 'myExercise error' });
-    }
-});
-
-// 내가 쓴 글
-router.get('/myPage/myCommunity', authMiddleware, async (req, res) => {
+router.get('/myPage/myReview', async (req, res, next) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -71,22 +52,39 @@ router.get('/myPage/myCommunity', authMiddleware, async (req, res) => {
         const userInfo = await User.findOne({
             userId,
         });
-        var myPost = await Post.find({ userId });
-        for (let i = 0; i < myPost.length; i++) {
-            myPost[i]['nickName'] = `${userInfo.nickName}`;
-            myPost[i]['userAge'] = `${userInfo.userAge}`;
-            myPost[i]['userGender'] = `${userInfo.userGender}`;
-            myPost[i]['userImg'] = `${userInfo.userImg}`;
+        var myReview = await Review.find({ userId });
+        for (let i = 0; i < myReview.length; i++) {
+            myReview[i]['nickName'] = `${userInfo.userNickname}`;
+            myReview[i]['userImg'] = `${userInfo.userImg}`;
         }
-        res.status(200).json({ myPost });
+        res.status(200).json({ msg: '내가 쓴 리뷰 success', myReview });
     } catch (err) {
-        console.log('마이페이지 에이피아이3', err);
-        res.status(400).json({ msg: 'mypage post error' });
+        res.status(400).json({ msg: '내가 쓴 리뷰 fail' });
+    }
+});
+
+// 내가 쓴 커뮤니티
+router.get('/myPage/myCommunity', async (req, res) => {
+    const { user } = res.locals;
+    const { userId } = user;
+
+    try {
+        const userInfo = await User.findOne({
+            userId,
+        });
+        var myCommunity = await Community.find({ userId });
+        for (let i = 0; i < myCommunity.length; i++) {
+            myCommunity[i]['nickName'] = `${userInfo.userNickname}`;
+            myCommunity[i]['userImg'] = `${userInfo.userImg}`;
+        }
+        res.status(200).json({ msg: '내가 쓴 커뮤니티 success', myCommunity });
+    } catch (err) {
+        res.status(400).json({ msg: '내가 쓴 커뮤니티 fail' });
     }
 });
 
 // 프로필 수정
-router.post('/myPage/myProfile', authMiddleware, async (req, res) => {
+router.post('/myPage/myProfile', async (req, res) => {
     const { user } = res.locals;
     const userId = user.userId;
 
@@ -99,8 +97,12 @@ router.post('/myPage/myProfile', authMiddleware, async (req, res) => {
     if (!regexr1.test(nickName)) {
         return res.status(403).send('특수문자를 사용할 수 없습니다');
     }
-    if (!regexr.test(userContent)) {
-        return res.status(403).send('특수문자를 사용할 수 없습니다');
+
+    if (userNickname.length > 0) {
+        const alreadyUser = await User.find({ userNickname });
+        if (alreadyUser.length > 0) {
+            return res.status(403).send('현재 사용중인 닉네임 입니다');
+        }
     }
     try {
         await User.updateOne(
