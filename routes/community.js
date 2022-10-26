@@ -14,7 +14,7 @@ const moment = require('moment');
 router.get('/communityList/:pageNumber', async (req, res) => {
     const { pageNumber } = req.params;
     const { user } = res.locals;
-    const userId = user;
+    const { userId } = user;
     try {
         let wholeCommunity = await Community.find({})
             .sort({ $natural: -1 })

@@ -73,8 +73,23 @@ router.post('/review/:restaurnatId', async (req, res) => {
 // 리뷰 조회
 router.get('/review/:restaurantId', async (req, res) => {
     const { restaurantId } = req.params;
+
+    const { user } = res.locals;
+    const { userId } = user;
+
     try {
-        var reviews = await Review.find({ restaurantId });
+        var reviews = await Review.find({ restaurantId })
+            .sort()
+            .skip((pageNumber - 1) * 6)
+            .limit(5);
+        let userInfo = '';
+        for (let i = 0; i < reviews.length; i++) {
+            userInfo = await User.findOne({
+                userId: reviews[i].userId,
+            });
+            reviews[i]['nickName'] = `${userInfo.nickName}`;
+            reviews[i]['userImg'] = `${userInfo.userImg}`;
+        }
         res.status(200).json({ msg: '리뷰 조회 success', reviews });
     } catch (error) {
         console.log(error);
