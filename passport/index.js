@@ -3,6 +3,7 @@ require('dotenv').config();
 const passport = require('passport');
 const google = require('./google');
 const kakao = require('./kakao');
+const naver = require('./naver');
 
 module.exports = () => {
     passport.serializeUser((user, done) => {
@@ -19,4 +20,5 @@ module.exports = () => {
 
     google();
     kakao();
+    naver();
 };

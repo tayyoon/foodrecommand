@@ -1,7 +1,7 @@
 require('dotenv').config();
 const passport = require('passport');
 const KakaoStrategy = require('passport-kakao').Strategy;
-const User = require('../schemas/user');
+const User = require('../models/user');
 
 module.exports = () => {
     passport.use(
@@ -22,6 +22,7 @@ module.exports = () => {
                         // 카카오 플랫폼에서 로그인 했고 & snsId필드에 카카오 아이디가 일치할경우
                         userId: profile.id,
                     });
+                    근데;
                     // 이미 가입된 카카오 프로필이면 성공
                     if (exUser) {
                         done(null, exUser); // 로그인 인증 완료
