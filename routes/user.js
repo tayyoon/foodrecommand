@@ -69,6 +69,41 @@ const googleCallback = (req, res, next) => {
 router.get('/callback/google', googleCallback);
 // passport.authenticate('google', { failureRedirect: '/' }), //? 그리고 passport 로그인 전략에 의해 googleStrategy로 가서 구글계정 정보와 DB를 비교해서 회원가입시키거나 로그인 처리하게 한다.
 
+//* 네이버로 로그인하기 라우터 ***********************
+router.get('/naver', passport.authenticate('naver', { authType: 'reprompt' }));
+
+const naverCallback = (req, res, next) => {
+    passport.authenticate(
+        'naver',
+        { failureRedirect: '/' },
+        (err, user, info) => {
+            if (err) return next(err);
+            console.log('콜백~~~');
+            const userInfo = user;
+            const { userId } = user;
+            const token = jwt.sign({ userId }, process.env.MY_KEY);
+
+            result = {
+                token,
+                userInfo,
+            };
+            console.log('네이버 콜백 함수 결과', result);
+            res.send({ user: result });
+        }
+    )(req, res, next);
+};
+//? 위에서 네이버 서버 로그인이 되면, 네이버 redirect url 설정에 따라 이쪽 라우터로 오게 된다.
+// router.get(
+//     '/naver/callback',
+//     //? 그리고 passport 로그인 전략에 의해 naverStrategy로 가서 카카오계정 정보와 DB를 비교해서 회원가입시키거나 로그인 처리하게 한다.
+//     passport.authenticate('naver', { failureRedirect: '/' }),
+//     (req, res) => {
+//         res.redirect('/');
+//     }
+// );
+
+router.get('/callback/naver', naverCallback);
+
 //회원가입
 
 router.post(

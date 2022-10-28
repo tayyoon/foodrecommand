@@ -1,6 +1,10 @@
 require('dotenv').config();
+
 const passport = require('passport');
-const NaverStrategy = require('passport-naver').Strategy;
+const {
+    Strategy: NaverStrategy,
+    Profile: NaverProfile,
+} = require('passport-naver-v2');
 const User = require('../models/user');
 
 module.exports = () => {
@@ -39,7 +43,7 @@ module.exports = () => {
             //     );
             // }
             async (accessToken, refreshToken, profile, done) => {
-                console.log('네이버 엑세스, 파일', accessToken, profile);
+                console.log('naver profile : ', profile);
                 try {
                     const exUser = await User.findOne({
                         // 카카오 플랫폼에서 로그인 했고 & snsId필드에 카카오 아이디가 일치할경우
@@ -52,8 +56,8 @@ module.exports = () => {
                         // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
                         const newUser = await User.create({
                             userId: profile.id,
-                            nickname: profile.displayName,
-                            email: profile.emails[0].value,
+                            nickname: profile.name,
+                            email: profile.email,
                             provider: 'naver',
                             // naver: profile._json,
                         });
