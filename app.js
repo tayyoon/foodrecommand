@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const connect = require('./models');
 const cors = require('cors');
+const passportConfig = require('./passport');
 
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -11,6 +12,7 @@ const app = express();
 
 connect();
 app.use(cors());
+passportConfig();
 
 const communityRouter = require('./routes/community');
 const reviewsRouter = require('./routes/review');

@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const User = require('../models/user');
 const router = express.Router();
-// const passport = require('passport');
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const authMiddleware = require('../middlewares/auth-middleware');
 // const upload = require('../S3/s3');
