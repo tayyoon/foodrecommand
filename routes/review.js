@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/user');
-const Community = require('../models/Community');
+const Community = require('../models/community');
 const Review = require('../models/review');
 const Restaurant = require('../models/restaurant');
 
