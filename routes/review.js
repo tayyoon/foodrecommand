@@ -70,6 +70,90 @@ router.post('/review/:restaurnatId', async (req, res) => {
     }
 });
 
+//글 수정하기API
+router.put(
+    '/reviewEdit/:reviewId',
+    upload.single('image'), // image upload middleware
+    async (req, res, next) => {
+        const id = req.params.reviewId;
+        const { user } = res.locals;
+        const { userId, userNickname } = user;
+        const {
+            reviewTitle,
+            reviewDesc,
+            reviewScore,
+            reviewImg,
+            reviewTagFood,
+            reviewTagWeather,
+            reviewTagMood,
+        } = req.body;
+        console.log(content, title, id);
+        const o_id = new Object(id);
+        const today = new Date();
+        const date = today.toLocaleString();
+        //         // const image = req.file?.location; // file.location에 저장된 객체imgURL
+        //         // if (!image) {
+        //         //     return res.status(400).send({
+        //         //         message: '이미지 파일을 추가해주세요.',
+        //         //     });
+        //         // }
+        //         // console.log('image', image);
+        //         // const [detail] = await Posts.find({ _id: o_id });
+        //         // console.log(detail);
+        //         // const imagecheck = detail.image;
+        //         // console.log(imagecheck);
+        //         // const deleteimage = imagecheck.split('/')[3];
+        //         // console.log(deleteimage);
+        //         // s3.putObject(
+        //         //     {
+        //         //         Bucket: 'image-posting',
+        //         //         Key: `${deleteimage}`,
+        //         //     },
+        //         //     (err, data) => {
+        //         //         console.log(err);
+        //         //         if (err) {
+        //         //             throw err;
+        //         //         }
+        //         //     }
+        //         // );
+
+        try {
+            await Community.updateOne(
+                { _id: o_id },
+                {
+                    $set: {
+                        reviewTitle,
+                        reviewDesc,
+                        reviewScore,
+                        reviewImg,
+                        reviewTagFood,
+                        reviewTagWeather,
+                        reviewTagMood,
+                        userId,
+                        nickName: 'a',
+                        userImg: 'a',
+                        createAt: date,
+                    },
+                }
+            );
+            const userInfo = await User.findOne({
+                userId,
+            });
+
+            reviewList['nickName'] = `${userInfo.nickName}`;
+            reviewList['userImg'] = `${userInfo.userImg}`;
+
+            res.status(200).send({
+                message: '수정 완료',
+            });
+        } catch (err) {
+            res.status(400).send({
+                message: '수정 실패',
+            });
+        }
+    }
+);
+
 // 리뷰 조회
 router.get('/review/:restaurantId', async (req, res) => {
     const { restaurantId } = req.params;

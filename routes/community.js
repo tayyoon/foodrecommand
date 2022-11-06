@@ -106,6 +106,105 @@ router.post(
     }
 );
 
+// 커뮤니티 수정
+router.put(
+    '/communityEdit/:communityId',
+    // post_validation.post_wirte, (vaildation 예외처리시 활성화)
+    async (req, res, next) => {
+        //작성한 정보 가져옴
+        const { communityId } = req.params;
+        const { communityTitle, communityDesc, communityImg } = req.body;
+
+        console.log(communityId, communityTitle, communityDesc, communityImg);
+
+        // 사용자 브라우저에서 보낸 쿠키를 인증미들웨어통해 user변수 생성, 구조분해할당으로 인식이 되지않아 구조분해할당 해제
+        const { user } = res.locals;
+        const { userId, userNickname } = user.userId;
+
+        // 글작성시각 생성
+        require('moment-timezone');
+        moment.tz.setDefault('Asia/Seoul');
+        const createdAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
+
+        try {
+            var communityList = await Community.create({
+                userId,
+                userNickname,
+                communityTitle,
+                communityDesc,
+                communityImg,
+                createAt: createdAt,
+            });
+            const userInfo = await User.findOne({
+                userId: userId,
+            });
+
+            res.status(200).json({
+                msg: '커뮤니티 등록 success',
+                communityList,
+            });
+        } catch (error) {
+            console.log(error);
+
+            res.status(400).send({ msg: '커뮤니티 등록 fail' });
+        }
+    }
+);
+
+//글 수정하기API
+// router.put(
+//     '/communityEdit/:communityId',
+//     upload.single('image'), // image upload middleware
+//     async (req, res, next) => {
+//         const { id } = req.params;
+//         const { content, title } = req.body;
+//         console.log(content, title, id);
+//         const o_id = new Object(id);
+//         const today = new Date();
+//         const date = today.toLocaleString();
+//         // const image = req.file?.location; // file.location에 저장된 객체imgURL
+//         // if (!image) {
+//         //     return res.status(400).send({
+//         //         message: '이미지 파일을 추가해주세요.',
+//         //     });
+//         // }
+//         // console.log('image', image);
+//         // const [detail] = await Posts.find({ _id: o_id });
+//         // console.log(detail);
+//         // const imagecheck = detail.image;
+//         // console.log(imagecheck);
+//         // const deleteimage = imagecheck.split('/')[3];
+//         // console.log(deleteimage);
+//         // s3.putObject(
+//         //     {
+//         //         Bucket: 'image-posting',
+//         //         Key: `${deleteimage}`,
+//         //     },
+//         //     (err, data) => {
+//         //         console.log(err);
+//         //         if (err) {
+//         //             throw err;
+//         //         }
+//         //     }
+//         // );
+
+//         try {
+//             await Community.updateOne(
+//                 { _id: o_id },
+//                 { $set: { content, title, date, image } }
+//             );
+
+//             res.status(200).send({
+//                 message: '수정 완료',
+//             });
+//         } catch (err) {
+//             res.status(400).send({
+//                 message: '수정 실패',
+//             });
+//         }
+//     }
+// );
+
 // 게시글 삭제
 router.delete(
     '/communityDelete/:communityId',
@@ -123,5 +222,8 @@ router.delete(
         }
     }
 );
+
+// 커뮤니티 조회수
+router.put();
 
 module.exports = router;

@@ -16,6 +16,7 @@ const CommunitySchema = new mongoose.Schema({
     },
     communityView: {
         type: Number,
+        default: 0,
     },
     userId: {
         type: String,
