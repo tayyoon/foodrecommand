@@ -5,7 +5,7 @@ const Comment = require('../models/comment');
 
 const router = express.Router();
 const moment = require('moment');
-// const authMiddleware = require('../middlewares/auth-middleware')
+const authMiddleware = require('../middlewares/auth-middleware');
 // const upload = require('../S3/s3');
 // const Joi = require('joi');
 // const post_validation = require('../vaildation/post.val')
@@ -138,6 +138,9 @@ router.put(
             const userInfo = await User.findOne({
                 userId: userId,
             });
+
+            communityList['nickName'] = `${userInfo.nickName}`;
+            communityList['userImg'] = `${userInfo.userImg}`;
 
             res.status(200).json({
                 msg: '커뮤니티 등록 success',

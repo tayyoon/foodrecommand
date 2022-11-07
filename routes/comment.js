@@ -5,7 +5,7 @@ const User = require('../models/user');
 const Restaurant = require('../models/restaurant');
 const router = express.Router();
 const moment = require('moment');
-// const authMiddleware = require('../middlewares/auth-middleware');
+const authMiddleware = require('../middlewares/auth-middleware');
 
 // 코멘트 등록 (커뮤니티 코멘트)
 router.post('/community/comment/:communityId', async (req, res) => {
@@ -71,7 +71,6 @@ router.post('/restaurant/comment/:restaurantId', async (req, res) => {
             userId,
         });
         commentList['nickName'] = `${userInfo.nickName}`;
-        commentList['userAge'] = `${userInfo.userAge}`;
         commentList['userImg'] = `${userInfo.userImg}`;
 
         res.status(200).json({

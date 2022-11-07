@@ -5,9 +5,9 @@ const Review = require('../models/review');
 const Restaurant = require('../models/restaurant');
 
 const router = express.Router();
-// const moment = require('moment');
+const moment = require('moment');
 // const upload = require('../S3/s3');
-// const authMiddleware = require('../middlewares/auth-middleware');
+const authMiddleware = require('../middlewares/auth-middleware');
 
 // 리뷰 등록
 router.post('/review/:restaurnatId', async (req, res) => {
@@ -70,7 +70,7 @@ router.post('/review/:restaurnatId', async (req, res) => {
     }
 });
 
-//글 수정하기API
+// 리뷰 수정
 router.put(
     '/reviewEdit/:reviewId',
     upload.single('image'), // image upload middleware

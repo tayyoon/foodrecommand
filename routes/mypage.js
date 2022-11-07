@@ -11,7 +11,7 @@ const router = express.Router();
 // const s3 = new AWS.S3();
 //multer-s3 미들웨어 연결
 require('dotenv').config();
-// const authMiddleware = require('../middlewares/auth-middleware');
+const authMiddleware = require('../middlewares/auth-middleware');
 
 // 마이페이지
 router.get('/myPage', async (req, res) => {
