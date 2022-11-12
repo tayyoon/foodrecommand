@@ -1,35 +1,36 @@
 {
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.4",
-    "mongoose": "^6.6.5",
-    "passport": "^0.6.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-kakao": "^1.0.1",
-    "passport-naver-v2": "^2.0.8",
-    "prettier": "^2.7.1",
-    "swagger-autogen": "^2.22.0",
-    "swagger-jsdoc": "^6.2.5",
-    "swagger-ui-express": "^4.5.0"
-  },
-  "name": "foodrecommand",
-  "version": "1.0.0",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tayyoon/foodrecommand.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tayyoon/foodrecommand/issues"
-  },
-  "homepage": "https://github.com/tayyoon/foodrecommand#readme",
-  "description": ""
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.29.4",
+        "mongoose": "^6.6.5",
+        "passport": "^0.6.0",
+        "passport-google-oauth20": "^2.0.0",
+        "passport-kakao": "^1.0.1",
+        "passport-naver-v2": "^2.0.8",
+        "prettier": "^2.7.1",
+        "swagger-autogen": "^2.22.0",
+        "swagger-jsdoc": "^6.2.5",
+        "swagger-ui-express": "^4.5.0"
+    },
+    "name": "foodrecommand",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prettify": "prettier --write *.js **/*.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tayyoon/foodrecommand.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tayyoon/foodrecommand/issues"
+    },
+    "homepage": "https://github.com/tayyoon/foodrecommand#readme",
+    "description": ""
 }
