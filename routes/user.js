@@ -112,19 +112,10 @@ router.post(
     user_validation.user_signUp,
     async (req, res) => {
         try {
-            const {
-                nickName,
-                userAge,
-                userGender,
-                userContent,
-                userInterest,
-                address,
-            } = req.body;
+            const { userNickName, userAge, userGender, userContent } = req.body;
 
             const { user } = res.locals;
             let userId = user.userId;
-            let userEvalue = Number(10);
-            let level = Number(2);
             //userId가 db에 존재하지않을 때 회원가입실패 메시지 송출
             const existUsers = await User.find({
                 $or: [{ userId }],
@@ -137,13 +128,9 @@ router.post(
                 {
                     $set: {
                         userAge,
-                        nickName,
+                        userNickName,
                         userGender,
                         userContent,
-                        userInterest,
-                        address,
-                        userEvalue,
-                        level,
                     },
                 }
             );
