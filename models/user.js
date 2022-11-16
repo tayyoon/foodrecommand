@@ -27,6 +27,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    userAddress: {
+        type: String,
+        required: true,
+    },
 });
 
 UserSchema.virtual('userId').get(function () {

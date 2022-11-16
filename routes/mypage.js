@@ -84,12 +84,12 @@ router.get('/myPage/myCommunity', async (req, res) => {
 });
 
 // 프로필 수정
-router.post('/myPage/myProfile', async (req, res) => {
+router.post('/myPage/myProfile/:address', async (req, res) => {
+    const { address } = req.query;
     const { user } = res.locals;
-    const userId = user.userId;
+    const { userId, userAddress } = user;
 
-    const { userNickname, userEmail, userComment, userAddress, userImg } =
-        req.body;
+    const { userNickname, userEmail, userComment, userImg } = req.body;
 
     //특수문자 제한 정규식
     const regexr = /^[a-zA-Z0-9가-힣\s.~!,]{1,100}$/;
@@ -105,18 +105,32 @@ router.post('/myPage/myProfile', async (req, res) => {
         }
     }
     try {
-        await User.updateOne(
-            { userId },
-            {
-                $set: {
-                    userNickname,
-                    userEmail,
-                    userComment,
-                    userAddress,
-                    userImg,
-                },
-            }
-        );
+        if (address !== userAddress) {
+            await User.updateOne(
+                { userId },
+                {
+                    $set: {
+                        userNickname,
+                        userEmail,
+                        userComment,
+                        userAddress,
+                        userImg,
+                    },
+                }
+            );
+        } else {
+            await User.updateOne(
+                { userId },
+                {
+                    $set: {
+                        userNickname,
+                        userEmail,
+                        userComment,
+                        userImg,
+                    },
+                }
+            );
+        }
         res.status(200).send({
             msg: '프로필 수정 success',
         });
