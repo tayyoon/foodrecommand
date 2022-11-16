@@ -14,6 +14,10 @@ const CommunitySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    communityRegion: {
+        type: String,
+        required: true,
+    },
     communityView: {
         type: Number,
         default: 0,

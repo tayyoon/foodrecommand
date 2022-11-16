@@ -38,6 +38,34 @@ router.get('/communityList/:pageNumber', async (req, res) => {
     }
 });
 
+// 커뮤니티 리스트: 지역으로 솔트
+router.get('/communityList/:region', async (req, res) => {
+    const { region } = req.params;
+    const { user } = res.locals;
+    const { userId } = user;
+    try {
+        let regionCommunity = await Community.find({ region })
+            .sort({ $natural: -1 })
+            .skip((pageNumber - 1) * 6)
+            .limit(5);
+        let userInfo = '';
+        for (let i = 0; i < regionCommunity.length; i++) {
+            userInfo = await User.findOne({
+                userId: regionCommunity[i].userId,
+            });
+            regionCommunity[i]['nickName'] = `${userInfo.nickName}`;
+            regionCommunity[i]['userImg'] = `${userInfo.userImg}`;
+        }
+        res.status(200).json({
+            regionCommunity,
+            msg: '지역별 커뮤니티 리스트 success',
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send('지역별 커뮤니티 리스트 fail');
+    }
+});
+
 // 상세페이지 조회
 router.get(
     '/communityDetail/:communityId',
