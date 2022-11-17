@@ -3,6 +3,7 @@ const Community = require('../models/community');
 const Comment = require('../models/comment');
 const User = require('../models/user');
 const Restaurant = require('../models/restaurant');
+const Review = require('../models/review');
 const router = express.Router();
 const moment = require('moment');
 const authMiddleware = require('../middlewares/auth-middleware');
@@ -118,4 +119,27 @@ router.put('/restaurant/:restaurantId', async (req, res, next) => {
     const { restaurantId } = res.params;
     const { user } = res.locals;
     const { userId } = user;
+
+    let sum = 0;
+    let reviewScores;
+    let reviewAverage;
+
+    let reviews = await Review.find({ restaurantId });
+
+    console.log(review);
+    // 어떤식으로 담기는지 확인하기, 확인하고 리뷰 스코어만 담기
+
+    for (let i = 0; i < reviews.length; i++) {
+        let reviewScore = reviews[i].reviewScore;
+        reviewScores.push(reviewScore);
+    }
+    for (let j = 0; j < reviewScores.length; j++) {
+        let sum = sum + reviewScores[j];
+        let reviewAverage = sum / reviewScores.length;
+
+        await Review.updateOne(
+            { restaurantId },
+            { $set: { reviewScore: reviewAverage } }
+        );
+    }
 });
