@@ -28,6 +28,22 @@ const RestaurantSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    restaurantRegion: {
+        type: Number,
+        default: 0,
+    },
+    restaurantFood: {
+        type: Number,
+        default: 0,
+    },
+    restaurantWeather: {
+        type: Number,
+        default: 0,
+    },
+    restaurantMood: {
+        type: Number,
+        default: 0,
+    },
 });
 
 RestaurantSchema.virtual('restaurantId').get(function () {
