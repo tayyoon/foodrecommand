@@ -10,16 +10,16 @@ const ReviewSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    reviewRegionTag: {
+    reviewRegion: {
         type: String,
     },
-    reviewFoodTag: {
+    reviewFood: {
         type: String,
     },
-    reviewWeatherTag: {
+    reviewWeather: {
         type: String,
     },
-    reviewMoodTag: {
+    reviewMood: {
         type: String,
     },
     reviewScore: {
