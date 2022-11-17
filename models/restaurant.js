@@ -28,20 +28,28 @@ const RestaurantSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    restaurantRegion: {
-        type: Number,
+    restaurantRegion1: {
+        type: String,
+        default: 0,
+    },
+    restaurantRegion2: {
+        type: String,
+        default: 0,
+    },
+    restaurantRegion3: {
+        type: String,
         default: 0,
     },
     restaurantFood: {
-        type: Number,
+        type: String,
         default: 0,
     },
     restaurantWeather: {
-        type: Number,
+        type: String,
         default: 0,
     },
     restaurantMood: {
-        type: Number,
+        type: String,
         default: 0,
     },
 });
