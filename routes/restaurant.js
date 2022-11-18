@@ -255,32 +255,49 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
     }
     let topMood;
 
-    let weather1,
+    let weathers = {
+        weather1: 0,
+        weather2: 0,
+        weather3: 0,
+        weather4: 0,
+        weather5: 0,
+        weather6: 0,
+        weather7: 0,
+    };
+
+    function getObjKey(obj, value) {
+        return Object.keys(obj).find((key) => obj[key] === value);
+    }
+
+    for (let j = 0; j < reviewWeathers.length; j++) {
+        if (reviewWeathers[j] === '비') {
+            weathers.weather1 = weathers.weather1 + 1;
+        } else if (reviewWeathers[j] === '눈') {
+            weathers.weather2 = weathers.weather2 + 1;
+        } else if (reviewWeathers[j] === '흐림') {
+            weathers.weather3 = weathers.weather3 + 1;
+        } else if (reviewWeathers[j] === '더움') {
+            weathers.weather1 = weathers.weather4 + 1;
+        } else if (reviewWeathers[j] === '쌀쌀') {
+            weathers.weather1 = weathers.weather5 + 1;
+        } else if (reviewWeathers[j] === '선선') {
+            weathers.weather1 = weathers.weather6 + 1;
+        } else {
+            weathers.weather1 = weathers.weather7 + 1;
+        }
+    }
+
+    let maxWeather = Math.max(
+        weather1,
         weather2,
         weather3,
         weather4,
         weather5,
         weather6,
-        weather7 = 0;
-    for (let j = 0; j < reviewWeathers.length; j++) {
-        if (reviewWeathers[j] === '비') {
-            let weather1 = +1;
-        } else if (reviewWeathers[j] === '눈') {
-            let weather2 = +1;
-        } else if (reviewWeathers[j] === '흐림') {
-            let weather3 = +1;
-        } else if (reviewWeathers[j] === '더움') {
-            let weather4 = +1;
-        } else if (reviewWeathers[j] === '쌀쌀') {
-            let weather5 = +1;
-        } else if (reviewWeathers[j] === '선선') {
-            let weather6 = +1;
-        } else {
-            let weather7 = +1;
-        }
+        weather7
+    );
+    if (maxWeather === weather1) {
     }
-
-    let topWeather;
 
     await Restaurant.updateMany(
         { restaurantId },
