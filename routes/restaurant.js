@@ -294,7 +294,8 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         weather4,
         weather5,
         weather6,
-        weather7
+        weather7,
+        weatehr8
     );
     if (maxWeather === weather1) {
     }
