@@ -185,6 +185,7 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         food6,
         food7,
         food8 = 0;
+
     for (let j = 0; j < reviewFoods.length; j++) {
         if (reviewFoods[j] === '한식') {
             let food1 = +1;
@@ -288,14 +289,14 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
     }
 
     let maxWeather = Math.max(
-        weather1,
-        weather2,
-        weather3,
-        weather4,
-        weather5,
-        weather6,
-        weather7,
-        weatehr8
+        weathers.weather1,
+        weathers.weather2,
+        weathers.weather3,
+        weathers.weather4,
+        weathers.weather5,
+        weathers.weather6,
+        weathers.weather7,
+        weathers.weatehr8
     );
     if (maxWeather === weather1) {
     }
