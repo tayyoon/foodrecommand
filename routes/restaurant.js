@@ -177,32 +177,34 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         }
     }
 
-    let food1,
-        food2,
-        food3,
-        food4,
-        food5,
-        food6,
-        food7,
-        food8 = 0;
+    let foods = {
+        food1: 0,
+        food2: 0,
+        food3: 0,
+        food4: 0,
+        food5: 0,
+        food6: 0,
+        food7: 0,
+        food8: 0,
+    };
 
     for (let j = 0; j < reviewFoods.length; j++) {
         if (reviewFoods[j] === '한식') {
-            let food1 = +1;
+            foods.food1 = foods.food1 + 1;
         } else if (reviewFoods[j] === '양식') {
-            let food2 = +1;
+            foods.food2 = foods.food2 + 1;
         } else if (reviewFoods[j] === '중식') {
-            let food3 = +1;
+            foods.food3 = foods.food3 + 1;
         } else if (reviewFoods[j] === '일식') {
-            let food4 = +1;
+            foods.food4 = foods.food4 + 1;
         } else if (reviewFoods[j] === '베트남') {
-            let food5 = +1;
+            foods.food5 = foods.food5 + 1;
         } else if (reviewFoods[j] === '멕시코') {
-            let food6 = +1;
+            foods.food6 = foods.food6 + 1;
         } else if (reviewFoods[j] === '태국') {
-            let food7 = +1;
+            foods.food7 = foods.food7 + 1;
         } else {
-            let food8 = +1;
+            foods.food8 = foods.food8 + 1;
         }
     }
 
