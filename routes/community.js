@@ -255,6 +255,6 @@ router.delete(
 );
 
 // 커뮤니티 조회수
-router.put();
+// router.put();
 
 module.exports = router;

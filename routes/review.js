@@ -73,7 +73,7 @@ router.post('/review/:restaurnatId', async (req, res) => {
 // 리뷰 수정
 router.put(
     '/reviewEdit/:reviewId',
-    upload.single('image'), // image upload middleware
+    // upload.single('image'), // image upload middleware
     async (req, res, next) => {
         const id = req.params.reviewId;
         const { user } = res.locals;

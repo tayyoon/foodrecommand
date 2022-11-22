@@ -208,50 +208,52 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
 
     let topFood;
 
-    let mood1,
-        mood2,
-        mood3,
-        mood4,
-        mood5,
-        mood6,
-        mood7,
-        mood8,
-        mood9,
-        mood10,
-        mood11,
-        mood12,
-        mood13,
-        mood14 = 0;
+    let moods = {
+        mood1: 0,
+        mood2: 0,
+        mood3: 0,
+        mood4: 0,
+        mood5: 0,
+        mood6: 0,
+        mood7: 0,
+        mood8: 0,
+        mood9: 0,
+        mood10: 0,
+        mood11: 0,
+        mood12: 0,
+        mood13: 0,
+        mood14: 0,
+    };
 
     for (let j = 0; j < reviewMoods.length; j++) {
         if (reviewFoods[j] === '감성') {
-            let mood1 = +1;
+            moods.mood1 = moods.mood1 + 1;
         } else if (reviewFoods[j] === '힙한') {
-            let mood2 = +1;
+            moods.mood2 = moods.mood2 + 1;
         } else if (reviewFoods[j] === '노포') {
-            let mood3 = +1;
+            moods.mood3 = moods.mood3 + 1;
         } else if (reviewFoods[j] === '레트로') {
-            let mood4 = +1;
+            moods.mood4 = moods.mood4 + 1;
         } else if (reviewFoods[j] === '편안한') {
-            let mood5 = +1;
+            moods.mood5 = moods.mood5 + 1;
         } else if (reviewFoods[j] === '조용한') {
-            let mood6 = +1;
+            moods.mood6 = moods.mood6 + 1;
         } else if (reviewFoods[j] === '시끄러운') {
-            let mood7 = +1;
+            moods.mood7 = moods.mood7 + 1;
         } else if (reviewFoods[j] === '로맨틱') {
-            let mood8 = +1;
+            moods.mood8 = moods.mood8 + 1;
         } else if (reviewFoods[j] === '회식') {
-            let mood9 = +1;
+            moods.mood9 = moods.mood9 + 1;
         } else if (reviewFoods[j] === '연말모임') {
-            let mood10 = +1;
+            moods.mood10 = moods.mood10 + 1;
         } else if (reviewFoods[j] === '데이트') {
-            let mood11 = +1;
+            moods.mood11 = moods.mood11 + 1;
         } else if (reviewFoods[j] === '로컬') {
-            let mood12 = +1;
+            moods.mood12 = moods.mood12 + 1;
         } else if (reviewFoods[j] === '혼밥/혼술') {
-            let mood13 = +1;
+            moods.mood13 = moods.mood13 + 1;
         } else {
-            let mood14 = +1;
+            moods.mood14 = moods.mood14 + 1;
         }
     }
     let topMood;
