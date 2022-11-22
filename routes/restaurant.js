@@ -208,7 +208,16 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         }
     }
 
-    let topFood;
+    let topFood = Math.max(
+        foods.food1,
+        foods.food2,
+        foods.food3,
+        foods.food4,
+        foods.food5,
+        foods.food6,
+        foods.food7,
+        foods.food8
+    );
 
     let moods = {
         mood1: 0,
@@ -258,7 +267,22 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
             moods.mood14 = moods.mood14 + 1;
         }
     }
-    let topMood;
+    let topMood = Math.max(
+        moods.mood1,
+        moods.mood2,
+        moods.mood3,
+        moods.mood4,
+        moods.mood5,
+        moods.mood6,
+        moods.mood7,
+        moods.mood8,
+        moods.mood9,
+        moods.mood10,
+        moods.mood11,
+        moods.mood12,
+        moods.mood13,
+        moods.mood14
+    );
 
     let weathers = {
         weather1: 0,
