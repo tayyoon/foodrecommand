@@ -154,6 +154,10 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
 
     let reviews = await Review.find({ restaurantId });
 
+    function getObjKey(obj, value) {
+        return Object.keys(obj).find((key) => obj[key] === value);
+    }
+
     for (let i = 0; i < reviews.length; i++) {
         if (reviews[i].reviewMood < 0 && reviews[i].reviewWeather < 0) {
             reviewFoods.push(reviews[i].reviewFood);
@@ -208,7 +212,9 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         }
     }
 
-    let topFood = Math.max(
+    // 한식, 양식, 중식, 일식 베트남, 멕시코, 태국,
+
+    let maxFood = Math.max(
         foods.food1,
         foods.food2,
         foods.food3,
@@ -218,6 +224,24 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         foods.food7,
         foods.food8
     );
+
+    let topFood;
+    // 한식, 양식, 중식, 일식 베트남, 멕시코, 태국,
+    if (maxFood === foods.food1) {
+        topFood = '한식';
+    } else if (maxFood === foods.food2) {
+        topFood = '양식';
+    } else if (maxFood === foods.food3) {
+        topFood = '중식';
+    } else if (maxFood === foods.food4) {
+        topFood = '일식';
+    } else if (maxFood === foods.food5) {
+        topFood = '베트남';
+    } else if (maxFood === foods.food6) {
+        topFood = '멕시코';
+    } else {
+        topFood = '태국';
+    }
 
     let moods = {
         mood1: 0,
@@ -235,39 +259,39 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         mood13: 0,
         mood14: 0,
     };
-
+    // 가족모임, 감성, 노포, 데이트, 레트로, 로맨틱, 로컬, 시끄러운, 연말모임, 조용한, 편안한, 혼밥, 회식, 힙한
     for (let j = 0; j < reviewMoods.length; j++) {
-        if (reviewFoods[j] === '감성') {
+        if (reviewMoods[j] === '가족모임') {
             moods.mood1 = moods.mood1 + 1;
-        } else if (reviewFoods[j] === '힙한') {
+        } else if (reviewMoods[j] === '감성') {
             moods.mood2 = moods.mood2 + 1;
-        } else if (reviewFoods[j] === '노포') {
+        } else if (reviewMoods[j] === '노포') {
             moods.mood3 = moods.mood3 + 1;
-        } else if (reviewFoods[j] === '레트로') {
+        } else if (reviewMoods[j] === '데이트') {
             moods.mood4 = moods.mood4 + 1;
-        } else if (reviewFoods[j] === '편안한') {
+        } else if (reviewMoods[j] === '레트로') {
             moods.mood5 = moods.mood5 + 1;
-        } else if (reviewFoods[j] === '조용한') {
+        } else if (reviewMoods[j] === '로맨틱') {
             moods.mood6 = moods.mood6 + 1;
-        } else if (reviewFoods[j] === '시끄러운') {
+        } else if (reviewMoods[j] === '로컬') {
             moods.mood7 = moods.mood7 + 1;
-        } else if (reviewFoods[j] === '로맨틱') {
+        } else if (reviewMoods[j] === '시끄러운') {
             moods.mood8 = moods.mood8 + 1;
-        } else if (reviewFoods[j] === '회식') {
+        } else if (reviewMoods[j] === '연말모임') {
             moods.mood9 = moods.mood9 + 1;
-        } else if (reviewFoods[j] === '연말모임') {
+        } else if (reviewMoods[j] === '조용헌') {
             moods.mood10 = moods.mood10 + 1;
-        } else if (reviewFoods[j] === '데이트') {
+        } else if (reviewMoods[j] === '편안한') {
             moods.mood11 = moods.mood11 + 1;
-        } else if (reviewFoods[j] === '로컬') {
+        } else if (reviewMoods[j] === '혼밥/혼술') {
             moods.mood12 = moods.mood12 + 1;
-        } else if (reviewFoods[j] === '혼밥/혼술') {
+        } else if (reviewMoods[j] === '회식') {
             moods.mood13 = moods.mood13 + 1;
         } else {
             moods.mood14 = moods.mood14 + 1;
         }
     }
-    let topMood = Math.max(
+    let maxMood = Math.max(
         moods.mood1,
         moods.mood2,
         moods.mood3,
@@ -284,6 +308,38 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         moods.mood14
     );
 
+    let topMood;
+    // 가족모임, 감성, 노포, 데이트, 레트로, 로맨틱, 로컬, 시끄러운, 연말모임, 조용한, 편안한, 혼밥, 회식, 힙한
+    if (maxMood === moods.mood1) {
+        topMood = '가족모임';
+    } else if (maxMood === moods.mood2) {
+        topMood = '감성';
+    } else if (maxMood === moods.mood3) {
+        topMood = '노포';
+    } else if (maxMood === moods.mood4) {
+        topMood = '데이트';
+    } else if (maxMood === moods.mood5) {
+        topMood = '레트로';
+    } else if (maxMood === moods.mood6) {
+        topMood = '로맨틱';
+    } else if (maxMood === moods.mood7) {
+        topMood = '로컬';
+    } else if (maxMood === moods.mood8) {
+        topMood = '시끄러운';
+    } else if (maxMood === moods.mood9) {
+        topMood = '연말모임';
+    } else if (maxMood === moods.mood10) {
+        topMood = '조용한';
+    } else if (maxMood === moods.mood11) {
+        topMood = '편안한';
+    } else if (maxMood === moods.mood12) {
+        topMood = '혼밥/혼술';
+    } else if (maxMood === moods.mood13) {
+        topMood = '회식';
+    } else if (maxMood === moods.mood14) {
+        topMood = '힙한';
+    }
+
     let weathers = {
         weather1: 0,
         weather2: 0,
@@ -293,10 +349,6 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         weather6: 0,
         weather7: 0,
     };
-
-    function getObjKey(obj, value) {
-        return Object.keys(obj).find((key) => obj[key] === value);
-    }
 
     // 비, 눈, 흐림, 더움, 쌀쌀, 선선, 추움
 
