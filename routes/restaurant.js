@@ -193,19 +193,19 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
     };
 
     for (let j = 0; j < reviewFoods.length; j++) {
-        if (reviewFoods[j] === '한식') {
+        if (reviewFoods[j] === '멕시코') {
             foods.food1 = foods.food1 + 1;
-        } else if (reviewFoods[j] === '양식') {
+        } else if (reviewFoods[j] === '베트남') {
             foods.food2 = foods.food2 + 1;
-        } else if (reviewFoods[j] === '중식') {
+        } else if (reviewFoods[j] === '양식') {
             foods.food3 = foods.food3 + 1;
         } else if (reviewFoods[j] === '일식') {
             foods.food4 = foods.food4 + 1;
-        } else if (reviewFoods[j] === '베트남') {
+        } else if (reviewFoods[j] === '중식') {
             foods.food5 = foods.food5 + 1;
-        } else if (reviewFoods[j] === '멕시코') {
-            foods.food6 = foods.food6 + 1;
         } else if (reviewFoods[j] === '태국') {
+            foods.food6 = foods.food6 + 1;
+        } else if (reviewFoods[j] === '한식') {
             foods.food7 = foods.food7 + 1;
         } else {
             foods.food8 = foods.food8 + 1;
@@ -228,19 +228,19 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
     let topFood;
     // 한식, 양식, 중식, 일식 베트남, 멕시코, 태국,
     if (maxFood === foods.food1) {
-        topFood = '한식';
+        topFood = '멕시코';
     } else if (maxFood === foods.food2) {
-        topFood = '양식';
+        topFood = '베트남';
     } else if (maxFood === foods.food3) {
-        topFood = '중식';
+        topFood = '양식';
     } else if (maxFood === foods.food4) {
         topFood = '일식';
     } else if (maxFood === foods.food5) {
-        topFood = '베트남';
+        topFood = '중식';
     } else if (maxFood === foods.food6) {
-        topFood = '멕시코';
-    } else {
         topFood = '태국';
+    } else {
+        topFood = '한식';
     }
 
     let moods = {
@@ -350,27 +350,27 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         weather7: 0,
     };
 
-    // 비, 눈, 흐림, 더움, 쌀쌀, 선선, 추움
+    // 눈, 더움, 비, 선선, 쌀쌀, 추움, 흐림
 
     for (let j = 0; j < reviewWeathers.length; j++) {
-        if (reviewWeathers[j] === '비') {
+        if (reviewWeathers[j] === '눈') {
             weathers.weather1 = weathers.weather1 + 1;
-        } else if (reviewWeathers[j] === '눈') {
-            weathers.weather2 = weathers.weather2 + 1;
-        } else if (reviewWeathers[j] === '흐림') {
-            weathers.weather3 = weathers.weather3 + 1;
         } else if (reviewWeathers[j] === '더움') {
+            weathers.weather2 = weathers.weather2 + 1;
+        } else if (reviewWeathers[j] === '비') {
+            weathers.weather3 = weathers.weather3 + 1;
+        } else if (reviewWeathers[j] === '선선') {
             weathers.weather4 = weathers.weather4 + 1;
         } else if (reviewWeathers[j] === '쌀쌀') {
             weathers.weather5 = weathers.weather5 + 1;
-        } else if (reviewWeathers[j] === '선선') {
+        } else if (reviewWeathers[j] === '추움') {
             weathers.weather6 = weathers.weather6 + 1;
         } else {
             weathers.weather7 = weathers.weather7 + 1;
         }
     }
 
-    // 비, 눈, 흐림, 더움, 쌀쌀, 선선, 추움
+    /// 눈, 더움, 비, 선선, 쌀쌀, 추움, 흐림
 
     let maxWeather = Math.max(
         weathers.weather1,
@@ -385,19 +385,19 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
     let topWeather;
 
     if (maxWeather === weathers.weather1) {
-        topWeather = '비';
-    } else if (maxWeather === weathers.weather2) {
         topWeather = '눈';
-    } else if (maxWeather === weathers.weather3) {
-        topWeather = '흐림';
-    } else if (maxWeather === weathers.weather4) {
+    } else if (maxWeather === weathers.weather2) {
         topWeather = '더움';
+    } else if (maxWeather === weathers.weather3) {
+        topWeather = '비';
+    } else if (maxWeather === weathers.weather4) {
+        topWeather = '선선';
     } else if (maxWeather === weathers.weather5) {
         topWeather = '쌀쌀';
     } else if (maxWeather === weathers.weather6) {
-        topWeather = '선선';
-    } else {
         topWeather = '추움';
+    } else {
+        topWeather = '흐림';
     }
 
     await Restaurant.updateMany(
