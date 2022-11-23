@@ -5,7 +5,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const authMiddleware = require('../middlewares/auth-middleware');
-// const upload = require('../S3/s3');
+const upload = require('../S3/s3');
 // const Joi = require('joi');
 // const user_validation = require('../vaildation/user.val');
 

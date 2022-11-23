@@ -6,9 +6,9 @@ const Comment = require('../models/comment');
 const Restaurant = require('../models/restaurant');
 
 const router = express.Router();
-// const upload = require('../S3/s3');
-// const AWS = require('aws-sdk');
-// const s3 = new AWS.S3();
+const upload = require('../S3/s3');
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
 //multer-s3 미들웨어 연결
 require('dotenv').config();
 const authMiddleware = require('../middlewares/auth-middleware');

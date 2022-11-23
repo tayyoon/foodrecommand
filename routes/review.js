@@ -6,7 +6,7 @@ const Restaurant = require('../models/restaurant');
 
 const router = express.Router();
 const moment = require('moment');
-// const upload = require('../S3/s3');
+const upload = require('../S3/s3');
 const authMiddleware = require('../middlewares/auth-middleware');
 
 // 리뷰 등록
