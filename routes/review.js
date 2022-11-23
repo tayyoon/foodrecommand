@@ -10,70 +10,74 @@ const moment = require('moment');
 const authMiddleware = require('../middlewares/auth-middleware');
 
 // 리뷰 등록
-router.post('/review/:restaurnatId', async (req, res) => {
-    try {
-        const { restaurnatId } = req.params;
-        const restaurant = await Restaurant.findOne({ _id: restaurnatId });
-        const { user } = res.locals;
-        const { userId, userNickname } = user;
-        const { restaurantName, restaurantPhone, restaurantAdress } =
-            restaurant;
-        const {
-            reviewTitle,
-            reviewDesc,
-            reviewScore,
-            reviewImg,
-            reviewTagFood,
-            reviewTagWeather,
-            reviewTagMood,
-        } = req.body;
+router.post(
+    '/review/:restaurnatId',
+    // upload.array('image', 5), // image upload middleware
+    async (req, res) => {
+        try {
+            const { restaurnatId } = req.params;
+            const restaurant = await Restaurant.findOne({ _id: restaurnatId });
+            const { user } = res.locals;
+            const { userId, userNickname } = user;
+            const { restaurantName, restaurantPhone, restaurantAdress } =
+                restaurant;
+            const {
+                reviewTitle,
+                reviewDesc,
+                reviewScore,
+                reviewImg,
+                reviewTagFood,
+                reviewTagWeather,
+                reviewTagMood,
+            } = req.body;
 
-        require('moment-timezone');
-        moment.tz.setDefault('Asia/Seoul');
-        const createdAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
+            require('moment-timezone');
+            moment.tz.setDefault('Asia/Seoul');
+            const createdAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
 
-        // 레스토랑Id로 DB에 검색해서 모든 socre값의 합 으로 평균내서 restaurantDB에 리뷰 작성할때마다 수정되도록
-        // await Restaurant.updateOne(
-        //     { restaurantId },
-        //     {
-        //         $set: {
-        //             restaurantScore: selfEvalue,
-        //             level,
-        //         },
-        //     }
-        // );
+            // 레스토랑Id로 DB에 검색해서 모든 socre값의 합 으로 평균내서 restaurantDB에 리뷰 작성할때마다 수정되도록
+            // await Restaurant.updateOne(
+            //     { restaurantId },
+            //     {
+            //         $set: {
+            //             restaurantScore: selfEvalue,
+            //             level,
+            //         },
+            //     }
+            // );
 
-        var reviewList = await Review.create({
-            reviewTitle,
-            reviewDesc,
-            reviewScore,
-            reviewImg,
-            reviewTagFood,
-            reviewTagWeather,
-            reviewTagMood,
-            userId,
-            nickName: 'a',
-            userImg: 'a',
-            createAt: createdAt,
-        });
-        const userInfo = await User.findOne({
-            userId,
-        });
+            var reviewList = await Review.create({
+                reviewTitle,
+                reviewDesc,
+                reviewScore,
+                reviewImg,
+                reviewTagFood,
+                reviewTagWeather,
+                reviewTagMood,
+                userId,
+                nickName: 'a',
+                userImg: 'a',
+                createAt: createdAt,
+            });
+            const userInfo = await User.findOne({
+                userId,
+            });
 
-        reviewList['nickName'] = `${userInfo.nickName}`;
-        reviewList['userImg'] = `${userInfo.userImg}`;
+            reviewList['nickName'] = `${userInfo.nickName}`;
+            reviewList['userImg'] = `${userInfo.userImg}`;
 
-        res.status(200).json({ msg: '리뷰 등록 success', reviewList });
-    } catch (error) {
-        console.log(error);
-        res.status(400).send({ msg: '리뷰 등록 fail' });
+            res.status(200).json({ msg: '리뷰 등록 success', reviewList });
+        } catch (error) {
+            console.log(error);
+            res.status(400).send({ msg: '리뷰 등록 fail' });
+        }
     }
-});
+);
 
 // 리뷰 수정
 router.put(
     '/reviewEdit/:reviewId',
-    // upload.single('image'), // image upload middleware
+    // upload.array('image', 5), // image upload middleware
     async (req, res, next) => {
         const id = req.params.reviewId;
         const { user } = res.locals;

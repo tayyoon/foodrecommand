@@ -95,6 +95,7 @@ router.get(
 router.post(
     '/communityWrite',
     // post_validation.post_wirte, (vaildation 예외처리시 활성화)
+    // upload.array('image',5),
     async (req, res) => {
         //작성한 정보 가져옴
         const { communityTitle, communityDesc, communityImg } = req.body;
@@ -138,6 +139,7 @@ router.post(
 router.put(
     '/communityEdit/:communityId',
     // post_validation.post_wirte, (vaildation 예외처리시 활성화)
+    // upload.array('image',5),
     async (req, res, next) => {
         //작성한 정보 가져옴
         const { communityId } = req.params;
@@ -242,6 +244,9 @@ router.delete(
 
     async (req, res) => {
         const { communityId } = req.params;
+
+        // const url = review[0].reviewImg.split('/');
+        // const delFileName = url[url.length - 1];
 
         try {
             await Community.deleteOne({ communityId });
