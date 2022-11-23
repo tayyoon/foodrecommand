@@ -298,6 +298,8 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         return Object.keys(obj).find((key) => obj[key] === value);
     }
 
+    // 비, 눈, 흐림, 더움, 쌀쌀, 선선, 추움
+
     for (let j = 0; j < reviewWeathers.length; j++) {
         if (reviewWeathers[j] === '비') {
             weathers.weather1 = weathers.weather1 + 1;
@@ -306,15 +308,17 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         } else if (reviewWeathers[j] === '흐림') {
             weathers.weather3 = weathers.weather3 + 1;
         } else if (reviewWeathers[j] === '더움') {
-            weathers.weather1 = weathers.weather4 + 1;
+            weathers.weather4 = weathers.weather4 + 1;
         } else if (reviewWeathers[j] === '쌀쌀') {
-            weathers.weather1 = weathers.weather5 + 1;
+            weathers.weather5 = weathers.weather5 + 1;
         } else if (reviewWeathers[j] === '선선') {
-            weathers.weather1 = weathers.weather6 + 1;
+            weathers.weather6 = weathers.weather6 + 1;
         } else {
-            weathers.weather1 = weathers.weather7 + 1;
+            weathers.weather7 = weathers.weather7 + 1;
         }
     }
+
+    // 비, 눈, 흐림, 더움, 쌀쌀, 선선, 추움
 
     let maxWeather = Math.max(
         weathers.weather1,
@@ -323,10 +327,25 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         weathers.weather4,
         weathers.weather5,
         weathers.weather6,
-        weathers.weather7,
-        weathers.weatehr8
+        weathers.weather7
     );
-    if (maxWeather === weather1) {
+
+    let topWeather;
+
+    if (maxWeather === weathers.weather1) {
+        topWeather = '비';
+    } else if (maxWeather === weathers.weather2) {
+        topWeather = '눈';
+    } else if (maxWeather === weathers.weather3) {
+        topWeather = '흐림';
+    } else if (maxWeather === weathers.weather4) {
+        topWeather = '더움';
+    } else if (maxWeather === weathers.weather5) {
+        topWeather = '쌀쌀';
+    } else if (maxWeather === weathers.weather6) {
+        topWeather = '선선';
+    } else {
+        topWeather = '추움';
     }
 
     await Restaurant.updateMany(
