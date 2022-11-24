@@ -21,13 +21,17 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
     userImg: {
-        type: String,
+        type: Array,
     },
     userEmail: {
         type: String,
         required: true,
     },
-    userAddress: {
+    userContent: {
+        type: String,
+        required: true,
+    },
+    userAge: {
         type: String,
         required: true,
     },
