@@ -411,3 +411,13 @@ router.put('/restaurantTag/:restaurantId', async (req, res, next) => {
         }
     );
 });
+
+// 레스토랑 지역 설정하기 (지역, 구, 동)
+router.put('/restaurant/:restaurantId', async (req, res, next) => {
+    const { restaurantId } = req.params;
+
+    const address = await Restaurant.findOne(
+        { restaurantId },
+        { restaurantAddress }
+    );
+});
