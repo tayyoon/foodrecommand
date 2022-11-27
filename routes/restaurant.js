@@ -420,4 +420,8 @@ router.put('/restaurant/:restaurantId', async (req, res, next) => {
         { restaurantId },
         { restaurantAddress }
     );
+
+    console.log(address);
+    // 주소가 잘 나오는지 확인하고
+    // split 으로 0,1,2 index 동까지만 나눠서 region1, region2, region3 에 배정해서 restaurant 스키마에 맞게 저장하기
 });
