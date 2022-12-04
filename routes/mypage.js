@@ -84,6 +84,26 @@ router.get('/myPage/myCommunity', async (req, res) => {
     }
 });
 
+// 내가 쓴 문의
+router.get('/myPage/myQuestion', async (req, res) => {
+    const { user } = res.locals;
+    const { userId } = user;
+
+    try {
+        const userInfo = await User.findOne({
+            userId,
+        });
+        var myQuestion = await Question.find({ userId });
+        for (let i = 0; i < myQuestion.length; i++) {
+            myQuestion[i]['nickName'] = `${userInfo.userNickname}`;
+            myQuestion[i]['userImg'] = `${userInfo.userImg}`;
+        }
+        res.status(200).json({ msg: '내가 쓴 Q&A success', myQuestion });
+    } catch (err) {
+        res.status(400).json({ msg: '내가 쓴 Q&A fail' });
+    }
+});
+
 // 프로필 수정
 router.post('/myPage/myProfile/:address', async (req, res) => {
     const { address } = req.query;
@@ -152,12 +172,97 @@ router.get('/mypage/popularQnA', async (req, res, next) => {
 router.post('/mypage/personalQna', async (req, res, next) => {
     const { user } = res.locals;
     const { userId } = user;
+
+    try {
+        const { questionType, questionTitle, questionDesc } = req.body;
+
+        require('moment-timezone');
+        moment.tz.setDefault('Asia/Seoul');
+        const createAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
+
+        var myQuestion = await Review.create({
+            questionType,
+            userId,
+            nickName: 'a',
+            userImg: 'a',
+            questionTitle,
+            questionDesc,
+            createAt,
+        });
+        const userInfo = await User.findOne({
+            userId,
+        });
+        myQuestion['nickName'] = `${userInfo.nickName}`;
+        myQuestion['userImg'] = `${userInfo.userImg}`;
+
+        res.status(200).json({
+            msg: '1:1문의 등록 success',
+            myQuestion,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ msg: '1:1문의 등록 fail' });
+    }
 });
-// 문의등록
-router.post('/mypage/personalQna/:questionId', async (req, res, next) => {
+// 문의등록 수정
+router.put('/mypage/personalQna/:questionId', async (req, res, next) => {
     const { questionId } = req.params;
     const { user } = res.locals;
     const { userId } = user;
+
+    const { questionType, questionTitle, questionDesc } = req.body;
+    const questionUserId = await Question.findOne({ questionId }, { userId });
+
+    try {
+        if (userId === questionUserId) {
+            await Question.updateOne(
+                { questionId },
+                {
+                    $set: {
+                        questionType,
+                        questionTitle,
+                        questionDesc,
+                    },
+                }
+            );
+        } else {
+            res.status(400).send({
+                msg: '1:1문의 수정 fail, 본인이 작성한 글이 아닙니다.',
+            });
+        }
+
+        res.status(200).send({
+            msg: '1:1문의 수정 success',
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(400).send({
+            msg: '1:1문의 수정 fail',
+        });
+    }
+});
+
+// 문의 삭제
+router.delete('/mypage/personalQna/:questionId', async (req, res, next) => {
+    const { questionId } = req.params;
+    const { user } = res.locals;
+    const { userId } = user;
+    const questionUser = await Question.findOne(
+        { _id: questionId },
+        { userId }
+    );
+
+    try {
+        if (questionUser === userId) {
+            await Question.deleteOne({ _id: questionId });
+
+            res.send({ msg: '1:1문의 삭제 success' });
+        } else {
+            res.status(400).send({ msg: '1:1문의 삭제 fail, 본인 글 아님' });
+        }
+    } catch {
+        res.status(400).send({ msg: '1:1문의 삭제 fail' });
+    }
 });
 
 module.exports = router;
