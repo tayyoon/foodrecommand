@@ -2,6 +2,7 @@ const express = require('express');
 const Community = require('../models/community');
 const User = require('../models/user');
 const Review = require('../models/review');
+const Question = require('../models/question');
 const Comment = require('../models/comment');
 const Restaurant = require('../models/restaurant');
 
@@ -143,6 +144,20 @@ router.post('/myPage/myProfile/:address', async (req, res) => {
 });
 
 // 자주묻는 질문
-router.get('/mypage/popularQnA', async (req, res, next) => {});
+router.get('/mypage/popularQnA', async (req, res, next) => {
+    const { user } = res.locals;
+});
+
+// 문의등록
+router.post('/mypage/personalQna', async (req, res, next) => {
+    const { user } = res.locals;
+    const { userId } = user;
+});
+// 문의등록
+router.post('/mypage/personalQna/:questionId', async (req, res, next) => {
+    const { questionId } = req.params;
+    const { user } = res.locals;
+    const { userId } = user;
+});
 
 module.exports = router;

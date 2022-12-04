@@ -34,6 +34,10 @@ const ReviewSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    userId: {
+        type: String,
+        required: true,
+    },
     createAt: {
         type: String,
         required: true,
