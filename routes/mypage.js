@@ -142,4 +142,7 @@ router.post('/myPage/myProfile/:address', async (req, res) => {
     }
 });
 
+// 자주묻는 질문
+router.get('/mypage/popularQnA', async (req, res, next) => {});
+
 module.exports = router;
