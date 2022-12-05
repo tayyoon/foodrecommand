@@ -163,11 +163,6 @@ router.post('/myPage/myProfile/:address', async (req, res) => {
     }
 });
 
-// 자주묻는 질문
-router.get('/mypage/popularQnA', async (req, res, next) => {
-    const { user } = res.locals;
-});
-
 // 문의등록
 router.post('/mypage/personalQna', async (req, res, next) => {
     const { user } = res.locals;
@@ -263,6 +258,12 @@ router.delete('/mypage/personalQna/:questionId', async (req, res, next) => {
     } catch {
         res.status(400).send({ msg: '1:1문의 삭제 fail' });
     }
+});
+
+// 자주묻는 질문
+router.get('/mypage/popularQnA', async (req, res, next) => {
+    const { user } = res.locals;
+    const { userId } = user;
 });
 
 module.exports = router;
