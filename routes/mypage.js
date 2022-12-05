@@ -260,10 +260,32 @@ router.delete('/mypage/personalQna/:questionId', async (req, res, next) => {
     }
 });
 
-// 자주묻는 질문
+// 자주묻는 질문 : 자주묻는 질문 어떤식으로 해야하지, 디비를 새로 빼야할까... / 프론트에서 넘겨주는 값 프론트랑 이야기하기
 router.get('/mypage/popularQnA', async (req, res, next) => {
     const { user } = res.locals;
     const { userId } = user;
+
+    const { a1, a2, a3, a4, a5 } = req.body;
+
+    try {
+        if (a1.length > 0) {
+            const popularQna = Question.find({ questionType: a1 });
+        } else if (a2.length > 0) {
+            const popularQna = Question.find({ questionType: a2 });
+        } else if (a3.length > 0) {
+            const popularQna = Question.find({ questionType: a3 });
+        } else if (a4.length > 0) {
+            const popularQna = Question.find({ questionType: a4 });
+        } else if (a5.length > 0) {
+            const popularQna = Question.find({ questionType: a5 });
+        } else {
+            const popularQna = Question.find({ questionType: a1 });
+        }
+
+        res.status(200).send({ msg: '자주묻는 질문 success', popularQna });
+    } catch (error) {
+        res.status(400).send({ msg: '자주묻는 질문 fail' });
+    }
 });
 
 module.exports = router;
