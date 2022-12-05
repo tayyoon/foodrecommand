@@ -284,6 +284,7 @@ router.get('/mypage/popularQnA', async (req, res, next) => {
 
         res.status(200).send({ msg: '자주묻는 질문 success', popularQna });
     } catch (error) {
+        console.log('자주묻는 질문 fail', error);
         res.status(400).send({ msg: '자주묻는 질문 fail' });
     }
 });
