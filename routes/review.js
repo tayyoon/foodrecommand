@@ -33,7 +33,7 @@ router.post(
 
             require('moment-timezone');
             moment.tz.setDefault('Asia/Seoul');
-            const createdAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
+            const createAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
 
             // 레스토랑Id로 DB에 검색해서 모든 socre값의 합 으로 평균내서 restaurantDB에 리뷰 작성할때마다 수정되도록
             // await Restaurant.updateOne(
@@ -57,7 +57,7 @@ router.post(
                 userId,
                 nickName: 'a',
                 userImg: 'a',
-                createAt: createdAt,
+                createAt,
             });
             const userInfo = await User.findOne({
                 userId,
@@ -95,31 +95,31 @@ router.put(
         const o_id = new Object(id);
         const today = new Date();
         const date = today.toLocaleString();
-        //         // const image = req.file?.location; // file.location에 저장된 객체imgURL
-        //         // if (!image) {
-        //         //     return res.status(400).send({
-        //         //         message: '이미지 파일을 추가해주세요.',
-        //         //     });
-        //         // }
-        //         // console.log('image', image);
-        //         // const [detail] = await Posts.find({ _id: o_id });
-        //         // console.log(detail);
-        //         // const imagecheck = detail.image;
-        //         // console.log(imagecheck);
-        //         // const deleteimage = imagecheck.split('/')[3];
-        //         // console.log(deleteimage);
-        //         // s3.putObject(
-        //         //     {
-        //         //         Bucket: 'image-posting',
-        //         //         Key: `${deleteimage}`,
-        //         //     },
-        //         //     (err, data) => {
-        //         //         console.log(err);
-        //         //         if (err) {
-        //         //             throw err;
-        //         //         }
-        //         //     }
-        //         // );
+        // const image = req.file?.location; // file.location에 저장된 객체imgURL
+        // if (!image) {
+        //     return res.status(400).send({
+        //         message: '이미지 파일을 추가해주세요.',
+        //     });
+        // }
+        // console.log('image', image);
+        // const [detail] = await Posts.find({ _id: o_id });
+        // console.log(detail);
+        // const imagecheck = detail.image;
+        // console.log(imagecheck);
+        // const deleteimage = imagecheck.split('/')[3];
+        // console.log(deleteimage);
+        // s3.putObject(
+        //     {
+        //         Bucket: 'image-posting',
+        //         Key: `${deleteimage}`,
+        //     },
+        //     (err, data) => {
+        //         console.log(err);
+        //         if (err) {
+        //             throw err;
+        //         }
+        //     }
+        // );
 
         try {
             await Community.updateOne(

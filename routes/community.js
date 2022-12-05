@@ -108,7 +108,7 @@ router.post(
         // 글작성시각 생성
         require('moment-timezone');
         moment.tz.setDefault('Asia/Seoul');
-        const createdAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
+        const createAt = String(moment().format('YYYY-MM-DD HH:mm:ss'));
 
         try {
             var communityList = await Community.create({
@@ -117,7 +117,7 @@ router.post(
                 communityTitle,
                 communityDesc,
                 communityImg,
-                createAt: createdAt,
+                createAt,
             });
             const userInfo = await User.findOne({
                 userId: usersId,
