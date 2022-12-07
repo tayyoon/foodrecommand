@@ -15,7 +15,7 @@ require('dotenv').config();
 const authMiddleware = require('../middlewares/auth-middleware');
 
 // 마이페이지
-router.get('/myPage', async (req, res) => {
+router.get('/myPage', authMiddleware, async (req, res) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -28,7 +28,7 @@ router.get('/myPage', async (req, res) => {
 });
 
 // 내가 찜한 식당
-router.get('/myPage/myRestaurant', async (req, res, next) => {
+router.get('/myPage/myRestaurant', authMiddleware, async (req, res, next) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -45,7 +45,7 @@ router.get('/myPage/myRestaurant', async (req, res, next) => {
 });
 
 // 내가작성한 리뷰
-router.get('/myPage/myReview', async (req, res, next) => {
+router.get('/myPage/myReview', authMiddleware, async (req, res, next) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -65,7 +65,7 @@ router.get('/myPage/myReview', async (req, res, next) => {
 });
 
 // 내가 쓴 커뮤니티
-router.get('/myPage/myCommunity', async (req, res) => {
+router.get('/myPage/myCommunity', authMiddleware, async (req, res) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -85,7 +85,7 @@ router.get('/myPage/myCommunity', async (req, res) => {
 });
 
 // 내가 쓴 문의
-router.get('/myPage/myQuestion', async (req, res) => {
+router.get('/myPage/myQuestion', authMiddleware, async (req, res) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -105,7 +105,7 @@ router.get('/myPage/myQuestion', async (req, res) => {
 });
 
 // 프로필 수정
-router.post('/myPage/myProfile/:address', async (req, res) => {
+router.post('/myPage/myProfile/:address', authMiddleware, async (req, res) => {
     const { address } = req.query;
     const { user } = res.locals;
     const { userId, userAddress } = user;
@@ -164,7 +164,7 @@ router.post('/myPage/myProfile/:address', async (req, res) => {
 });
 
 // 문의등록
-router.post('/mypage/personalQna', async (req, res, next) => {
+router.post('/mypage/personalQna', authMiddleware, async (req, res, next) => {
     const { user } = res.locals;
     const { userId } = user;
 
@@ -200,65 +200,78 @@ router.post('/mypage/personalQna', async (req, res, next) => {
     }
 });
 // 문의등록 수정
-router.put('/mypage/personalQna/:questionId', async (req, res, next) => {
-    const { questionId } = req.params;
-    const { user } = res.locals;
-    const { userId } = user;
+router.put(
+    '/mypage/personalQna/:questionId',
+    authMiddleware,
+    async (req, res, next) => {
+        const { questionId } = req.params;
+        const { user } = res.locals;
+        const { userId } = user;
 
-    const { questionType, questionTitle, questionDesc } = req.body;
-    const questionUserId = await Question.findOne({ questionId }, { userId });
+        const { questionType, questionTitle, questionDesc } = req.body;
+        const questionUserId = await Question.findOne(
+            { questionId },
+            { userId }
+        );
 
-    try {
-        if (userId === questionUserId) {
-            await Question.updateOne(
-                { questionId },
-                {
-                    $set: {
-                        questionType,
-                        questionTitle,
-                        questionDesc,
-                    },
-                }
-            );
-        } else {
+        try {
+            if (userId === questionUserId) {
+                await Question.updateOne(
+                    { questionId },
+                    {
+                        $set: {
+                            questionType,
+                            questionTitle,
+                            questionDesc,
+                        },
+                    }
+                );
+            } else {
+                res.status(400).send({
+                    msg: '1:1문의 수정 fail, 본인이 작성한 글이 아닙니다.',
+                });
+            }
+
+            res.status(200).send({
+                msg: '1:1문의 수정 success',
+            });
+        } catch (err) {
+            console.error(err);
             res.status(400).send({
-                msg: '1:1문의 수정 fail, 본인이 작성한 글이 아닙니다.',
+                msg: '1:1문의 수정 fail',
             });
         }
-
-        res.status(200).send({
-            msg: '1:1문의 수정 success',
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(400).send({
-            msg: '1:1문의 수정 fail',
-        });
     }
-});
+);
 
 // 문의 삭제
-router.delete('/mypage/personalQna/:questionId', async (req, res, next) => {
-    const { questionId } = req.params;
-    const { user } = res.locals;
-    const { userId } = user;
-    const questionUser = await Question.findOne(
-        { _id: questionId },
-        { userId }
-    );
+router.delete(
+    '/mypage/personalQna/:questionId',
+    authMiddleware,
+    async (req, res, next) => {
+        const { questionId } = req.params;
+        const { user } = res.locals;
+        const { userId } = user;
+        const questionUser = await Question.findOne(
+            { _id: questionId },
+            { userId }
+        );
 
-    try {
-        if (questionUser === userId) {
-            await Question.deleteOne({ _id: questionId });
+        try {
+            if (questionUser === userId) {
+                await Question.deleteOne({ _id: questionId });
 
-            res.send({ msg: '1:1문의 삭제 success' });
-        } else {
-            res.status(400).send({ msg: '1:1문의 삭제 fail, 본인 글 아님' });
+                res.send({ msg: '1:1문의 삭제 success' });
+            } else {
+                res.status(400).send({
+                    msg: '1:1문의 삭제 fail, 본인 글 아님',
+                });
+            }
+        } catch {
+            res.status(400).send({ msg: '1:1문의 삭제 fail' });
         }
-    } catch {
-        res.status(400).send({ msg: '1:1문의 삭제 fail' });
     }
-});
+);
 
 // 자주묻는 질문 : 자주묻는 질문 어떤식으로 해야하지, 디비를 새로 빼야할까... / 프론트에서 넘겨주는 값 프론트랑 이야기하기
 router.get('/mypage/popularQnA', async (req, res, next) => {
