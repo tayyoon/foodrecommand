@@ -21,6 +21,8 @@ const comment_validation = {
             });
         }
         next();
+
+        onsole.log('콜백~~~');
     },
 };
 
