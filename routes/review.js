@@ -190,8 +190,8 @@ router.delete('/review/:reviewId', async (req, res) => {
     const { reviewId } = req.params;
     const review = await Review.find({ _id: reviewId });
 
-    // const url = review[0].reviewImg.split('/');
-    // const delFileName = url[url.length - 1];
+    const url = review[0].reviewImg.split('/');
+    const delFileName = url[url.length - 1];
     try {
         await Review.deleteOne({ _id: reviewId });
 
