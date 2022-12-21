@@ -95,7 +95,7 @@ router.put(
         const o_id = new Object(id);
         const today = new Date();
         const date = today.toLocaleString();
-        // const image = req.file?.location; // file.location에 저장된 객체imgURL
+        const image = req.file?.location; // file.location에 저장된 객체imgURL
         // if (!image) {
         //     return res.status(400).send({
         //         message: '이미지 파일을 추가해주세요.',
